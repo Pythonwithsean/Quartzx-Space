@@ -14,7 +14,7 @@ const uri = `mongodb+srv://pythonwithsean:${pwd}@quartzx.ehghmhv.mongodb.net/?re
 
 const userSchema = new mongoose.Schema({
   username: String,
-  email: String,
+  password: String,
 });
 
 const user = mongoose.model("user", userSchema);
@@ -32,13 +32,6 @@ mongoose
   .catch((err) => console.log(err));
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -61,23 +54,6 @@ app.post("/submit-form", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-//Define a run function for the ddatabase
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
 
 //Post when the front or client is sending data to server
 // Get when the front or client is getting data from server
