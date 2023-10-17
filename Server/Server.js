@@ -5,9 +5,21 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const pwd = encodeURIComponent(process.env.MONGO_PASSWORD);
 const { MongoClient, ServerApiVersion } = require("mongodb");
-const uri =
-  "mongodb+srv://pythonwithsean:Sophia%2320212@quartzx.ehghmhv.mongodb.net/?retryWrites=true&w=majority";
+const uri = `mongodb+srv://pythonwithsean:${pwd}@quartzx.ehghmhv.mongodb.net/?retryWrites=true&w=majority`;
+
+//Create a schema for the user model you want to store in MongoDB
+// /For example, if you want to store user data, create a schema for users.
+
+const userSchema = new mongoose.Schema({
+  username: String,
+  email: String,
+});
+
+const user = mongoose.model("user", userSchema);
+
+//Create a new user and save it to the database
 
 mongoose
   .connect(uri, {
@@ -27,6 +39,30 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
+
+app.use(cors());
+app.use(bodyParser.json());
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+
+app.post("/submit-form", async (req, res) => {
+  // Handle POST requests to /submit-form
+  // Send a response or perform necessary actions
+
+  try {
+    const data = req.body;
+    console.log(data);
+    const newUser = new user(data);
+    await newUser.save();
+    res.json({ message: "User created successfully" });
+    console.log("User created successfully");
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//Define a run function for the ddatabase
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
@@ -42,19 +78,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-app.use(cors());
-app.use(bodyParser.json());
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-
-app.post("/submit-form", (req, res) => {
-  // Handle POST requests to /submit-form
-  // Send a response or perform necessary actions
-  res.json({ message: "Success" });
-  const data = req.body;
-  console.log(data);
-});
 
 //Post when the front or client is sending data to server
 // Get when the front or client is getting data from server
