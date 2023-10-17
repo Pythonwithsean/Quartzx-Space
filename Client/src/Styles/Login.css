@@ -1,0 +1,89 @@
+.Login-Page{
+    width:100%;
+    height: 100vh;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Login-Page form{
+    width: 100%;
+    max-width:400px;
+    height: 500px;
+    padding: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+}
+
+.Login-Page form > #username, #pwd{
+    width: 100%;
+    height: 40px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    font-size: 20px;
+}
+
+.Login-Page input::placeholder{
+    color: #000;
+    font-weight: 500;
+}
+
+
+.Login-Page form > #pwd::placeholder{
+    color: #000;
+    font-weight: 500;
+}
+
+.Login-Page form p {
+    font-weight: 300;
+    text-align: center;
+    color:#000;
+    font-size:14px;
+    cursor: pointer;
+}
+
+
+.Login-Page form p :link{
+    color: #000;
+    font-weight: 300;
+    text-decoration: none;
+}
+
+.Login-Page form p :active{
+    color: #000;
+    font-weight: 300;
+    text-decoration: none;
+}
+
+.Login-Page form p :visited{
+    color: #000;
+    font-weight: 300;
+    text-decoration: none;
+}
+
+.Logo{
+    text-decoration: none;
+    color: #000;
+    font: 40px 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+
+.Login-Page form .unsuccessful-login{
+    text-align: center;
+    width:fit-content ;
+    height:9px;
+    padding:1px;
+    color:red;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

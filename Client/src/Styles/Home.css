@@ -1,0 +1,54 @@
+.Nav{
+    width:100%;
+    display: flex;
+}
+
+.Nav ul{
+    width:100%;
+    display: flex;
+    list-style: none;
+    justify-content: right;
+    gap: 10px;
+    padding-right: 5px;
+    text-decoration: none;
+    border: 1px solid black;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+}
+
+.Nav ul li :link{
+    color:black;
+    text-decoration: none;
+    transition: all .4s ease-in-out;
+    font-weight: 500;
+    border-left: 1px solid black;
+    padding-left: 10px;
+    
+
+}
+
+
+.Nav ul li :visited{
+    color:black;
+    text-decoration: none;
+}
+
+.Nav ul li :hover{
+    color:black;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.Nav ul li :active{
+    color:black;
+    text-decoration: none;
+}
+
+.Nav ul li .Our-Services{
+    border: 1px solid black;
+    padding:6px;
+    background-color: #000;
+    color: #fff;
+
+}
