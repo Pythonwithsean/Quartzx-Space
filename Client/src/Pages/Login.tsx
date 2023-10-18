@@ -16,7 +16,7 @@ function Login(): JSX.Element {
       setHasSubmitted(true);
       setIsSubmitted(true);
       try {
-        fetch("http://localhost:4000/submit-form", {
+        fetch("http://localhost:4000/auth/login", {
           method: "POST",
           body: JSON.stringify({
             username: username,
@@ -47,7 +47,7 @@ function Login(): JSX.Element {
         Quartzx Space
       </Link>
       <div className="Login-Page">
-        <form action="http://localhost:4000/submit-form" method="POST">
+        <form action="http://localhost:4000/auth/login" method="POST">
           <h1>Log in</h1>
           <input
             type="text"
