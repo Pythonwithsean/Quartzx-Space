@@ -8,7 +8,7 @@ function Header(): JSX.Element {
           <Link to="/Login">Login</Link>
         </li>
         <li>
-          <Link to="/">Register</Link>
+          <Link to="/Register">Register</Link>
         </li>
         <li>
           {" "}

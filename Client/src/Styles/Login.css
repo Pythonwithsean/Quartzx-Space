@@ -1,4 +1,4 @@
-.Login-Page{
+.Login-Page, .Register-page{
     width:100%;
     height: 100vh;
     background-color: #fff;
@@ -7,7 +7,7 @@
     align-items: center;
 }
 
-.Login-Page form{
+.Login-Page form, .Register-page form{
     width: 100%;
     max-width:400px;
     height: 500px;
@@ -18,7 +18,7 @@
     gap:20px;
 }
 
-.Login-Page form > #username, #pwd{
+.Login-Page form > #username, #pwd, .Register-page form > #username, #pwd{
     width: 100%;
     height: 40px;
     border: 1px solid #000;
@@ -28,7 +28,7 @@
     font-size: 20px;
 }
 
-.Login-Page input::placeholder{
+.Login-Page input::placeholder, .Register-page input::placeholder{
     color: #000;
     font-weight: 500;
 }
@@ -86,4 +86,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+.Register-page button{
+    width: 150px;
+    height: 35px;
+    padding: 5px;
+    displkay: flex;
+    align-items: center;
+
+    background-color: #000;
+
+    color: #fff;
+
 }
