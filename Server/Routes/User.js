@@ -12,10 +12,24 @@ router.post("/register", async (req, res) => {
   // res is used to send data back to whoever made a request to this endpoint /register
 
   // Accessing the email and password from the request body sent to this endpoint
-  const { email, password } = req.body;
+  const { username, password } = req.body;
+  console.log(username);
   // Checking if the user email already exists in the database
-  const user = await userModel.findOne({ email });
-  res.json({ message: "Login request received and done" });
+  const existingUser = await userModel.findOne({ username: username });
+  if (existingUser) {
+    // User already exists
+    console.log("User already exists");
+    return res.status(700).json({ message: "User already exists" });
+  } else {
+    const newUser = new userModel({
+      username: username,
+      password: password, // You should hash and salt the password for security
+      // Other user properties here
+    });
+    await newUser.save();
+    console.log("User created successfully");
+    return res.status(201).json({ message: "User created successfully" });
+  }
 });
 
 router.post("/login", async (req, res) => {

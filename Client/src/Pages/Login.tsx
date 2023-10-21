@@ -77,6 +77,14 @@ function Login(): JSX.Element {
             By logging in you have agreed to all the Terms and Conditions of
             Quartzx Space{" "}
           </p>
+          <div className="already-have-an-account">
+            Already have an account?{" "}
+            <em>
+              <strong>
+                <Link to="/Register">Register</Link>
+              </strong>
+            </em>
+          </div>
         </form>
       </div>
     </>

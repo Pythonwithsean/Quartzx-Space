@@ -74,7 +74,7 @@
 }
 
 
-.Login-Page form .unsuccessful-login{
+.Login-Page form .unsuccessful-login, .Register-page form .unsuccessful-login{
     text-align: center;
     width:fit-content ;
     height:9px;
@@ -91,13 +91,43 @@
 
 .Register-page button{
     width: 150px;
-    height: 35px;
-    padding: 5px;
+    height: 38px;
     displkay: flex;
     align-items: center;
+    justify-content: center;
+    
 
     background-color: #000;
 
     color: #fff;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    outline: none;
+    border:none;
+    border-radius: 4px;
+    transition: all 0.2s ease-in;
 
+}
+
+.Register-page button:hover{
+    transform: translateY(-5px);
+}
+
+
+div :link > .Register-page, .login-page{
+    text-decoration: underline;
+    color: purple;
+    
+}
+
+
+div > .user-exists {
+    color:#000;
+    font-weight: 800;
+    font-size: 16px;
+}
+
+
+div .already-have-an-account{
+    font-size: 18px;
 }
