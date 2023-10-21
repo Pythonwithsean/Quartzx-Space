@@ -71,7 +71,7 @@ function Register(): JSX.Element {
           ) : null}
           <button type="submit">Register</button>
           {userExists ? (
-            <strong className="user-exists">User already exists</strong>
+            <div className="user-exists">User already exists</div>
           ) : null}
           <div className="already-have-an-account">
             Already have an account?{" "}

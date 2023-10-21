@@ -48,7 +48,7 @@ function Login(): JSX.Element {
       </Link>
       <div className="Login-Page">
         <form action="http://localhost:4000/auth/login" method="POST">
-          <h1>Log in</h1>
+          <h1>Login</h1>
           <input
             type="text"
             name="username"
@@ -77,6 +77,7 @@ function Login(): JSX.Element {
             By logging in you have agreed to all the Terms and Conditions of
             Quartzx Space{" "}
           </p>
+
           <div className="already-have-an-account">
             Already have an account?{" "}
             <em>
