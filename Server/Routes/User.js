@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -53,8 +54,9 @@ router.post("/login", async (req, res) => {
     return res.status(400).json({ message: "Invalid password" });
   }
 
+  const token = jwt.sign({ id: existingUser._id }, process.env.Token);
   // Password is correct, proceed with the login
-  res.json({ message: "Login successful" });
+  res.json({ token, userID: existingUser._id });
   console.log("Login successful");
 });
 

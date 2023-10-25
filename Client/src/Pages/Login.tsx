@@ -1,6 +1,8 @@
 import "../Styles/Login.css";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 function Login(): JSX.Element {
   const [username, setUsername] = useState("");
@@ -8,15 +10,9 @@ function Login(): JSX.Element {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [userExists, setUserExists] = useState(false);
+  const [cookies, setCookies] = useCookies(["access_token"]);
 
-  useEffect(() => {
-    if (hasSubmitted && isSubmitted && !userExists) {
-      // Redirect after a 2-second delay (adjust the delay as needed)
-      setTimeout(() => {
-        window.location.href = "http://localhost:5173/"; // Redirect to the desired page
-      }, 2000);
-    }
-  }, [hasSubmitted, isSubmitted, userExists]);
+  const navigate = useNavigate();
 
   const submitForm = () => {
     if (username === "" || password === "") {
@@ -38,10 +34,15 @@ function Login(): JSX.Element {
         }).then((response) => {
           if (response.status === 400) {
             setUserExists(true);
-            console.log("user exists");
+            console.log("User Does not exist");
           } else {
             setUserExists(false);
-            console.log("user does not exist");
+            response.json().then((data) => {
+              setCookies("access_token", data.token);
+              console.log(cookies);
+              window.localStorage.setItem("userID", data.userID);
+              navigate("/QuartzxSpace");
+            });
           }
         });
       } catch (err) {

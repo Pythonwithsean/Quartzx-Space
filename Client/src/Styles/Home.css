@@ -29,12 +29,12 @@
 }
 
 
-.Nav ul li :visited{
+.Nav ul li :visited, .Logout-button:visited{
     color:black;
     text-decoration: none;
 }
 
-.Nav ul li :hover{
+.Nav ul li :hover, .Logout-button:hover{
     color:black;
     text-decoration: none;
     font-size: 20px;
@@ -51,4 +51,12 @@
     background-color: #000;
     color: #fff;
 
+}
+.Logout-button{
+    transition: .4s ease-in-out;
+    margin-right: 10px;
+}
+
+.Logout-button:hover{
+    scale: 1.2;
 }
