@@ -1,2 +1,2 @@
 # Quartzx-Space
-A Note Taking and Todo Application 
+A Synchronous Note Taking Application with Web Sockets 
