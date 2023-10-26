@@ -1,7 +1,7 @@
 .Login-Page, .Register-page{
     width:100%;
     height: 100vh;
-    background-color: #fff;
+    background-color: 	#1e2124;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,46 +29,46 @@
 }
 
 .Login-Page input::placeholder, .Register-page input::placeholder{
-    color: #000;
+    color: #4ED9AC;
     font-weight: 500;
 }
 
 
 .Login-Page form > #pwd::placeholder{
-    color: #000;
+    color: #4ED9AC;
     font-weight: 500;
 }
 
 .Login-Page form p {
     font-weight: 500;
     text-align: center;
-    color:#000;
+    color:#4ED9AC;
     font-size:16px;
     cursor: pointer;
 }
 
 
 .Login-Page form p :link{
-    color: #000;
+    color: #4ED9AC;
     font-weight: 300;
     text-decoration: none;
 }
 
 .Login-Page form p :active{
-    color: #000;
+    color: #4ED9AC;
     font-weight: 300;
     text-decoration: none;
 }
 
 .Login-Page form p :visited{
-    color: #000;
+    color: #4ED9AC;
     font-weight: 300;
     text-decoration: none;
 }
 
 .Logo{
     text-decoration: none;
-    color: #000;
+    color: #4ED9AC;
     font: 40px 'Poppins', sans-serif;
     font-weight: 600;
 }
@@ -99,7 +99,7 @@
 
     background-color: #000;
 
-    color: #fff;
+    color: #4ED9AC;
     font-weight: 300;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     outline: none;
@@ -122,7 +122,7 @@ div :link > .Register-page, .login-page{
 
 
 div  .user-exists {
-    color:#000;
+    color:#4ED9AC;
     font-weight: 800;
     font-size: 16px;
 }

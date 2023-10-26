@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
+import "../Styles/Header.css";
 
 function Header(): JSX.Element {
   const [cookies, setCookies] = useCookies(["access_token"]);

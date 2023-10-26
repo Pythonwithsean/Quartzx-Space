@@ -1,0 +1,87 @@
+h1,h2,h3,h4,h5,h6,p, article{
+    color: #fff;
+    padding: 0 15px 0 15px;
+    cursor: pointer;
+    
+}
+
+article{
+    font-size: 19px;
+}
+
+h1{
+    font-size: 3rem;
+    font-weight: 900;
+
+    margin-bottom: 0;
+}
+
+.button-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    text-decoration: none;
+    
+    
+}
+
+:link{
+    text-decoration: none;
+}
+
+button{
+    background-color: black;
+    color: #fff;
+
+
+}
+
+.notes-button{
+    width:150px;
+    height: 38px;
+    outline: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.book-img{
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    cursor: pointer;
+}
+
+article{
+    
+    width: 100%;
+    max-width: 800px;
+    text-wrap: wrap;
+    text-shadow: 2px 2px 2px black;
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 1024px){
+    .button-wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        width: 100%;
+        max-width: 1024px;
+   
+        
+    }
+
+    article{
+        width: 100%;
+        max-width: 800px;
+        text-wrap: wrap;
+        text-shadow: 2px 2px 2px black;
+        margin: 0;
+    }
+
+}

@@ -49,7 +49,7 @@ function Register(): JSX.Element {
       </Link>
       <div className="Register-page">
         <form action="" method="post" onSubmit={handleSubmit}>
-          <h1>Register</h1>
+          <h1 className="Logo">Register</h1>
           <input
             id="username"
             type="text"

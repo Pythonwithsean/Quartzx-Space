@@ -11,14 +11,13 @@
     gap: 10px;
     padding-right: 5px;
     text-decoration: none;
-    border: 1px solid black;
     padding-top: 10px;
     padding-bottom: 10px;
 
 }
 
 .Nav ul li :link{
-    color:black;
+    color: #4ED9AC;
     text-decoration: none;
     transition: all .4s ease-in-out;
     font-weight: 500;
@@ -30,26 +29,26 @@
 
 
 .Nav ul li :visited, .Logout-button:visited{
-    color:black;
+    color:#4ED9AC;
     text-decoration: none;
 }
 
 .Nav ul li :hover, .Logout-button:hover{
-    color:black;
+    color:#4ED9AC;
     text-decoration: none;
     font-size: 20px;
 }
 
 .Nav ul li :active{
-    color:black;
+    color:#4ED9AC;
     text-decoration: none;
 }
 
 .Nav ul li .Our-Services{
     border: 1px solid black;
     padding:6px;
-    background-color: #000;
-    color: #fff;
+    background-color: #0a1b3c;
+    color: #4ED9AC;
 
 }
 .Logout-button{
@@ -60,3 +59,4 @@
 .Logout-button:hover{
     scale: 1.2;
 }
+

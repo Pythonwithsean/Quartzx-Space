@@ -39,7 +39,6 @@ function Login(): JSX.Element {
             setUserExists(false);
             response.json().then((data) => {
               setCookies("access_token", data.token);
-              console.log(cookies);
               window.localStorage.setItem("userID", data.userID);
               navigate("/QuartzxSpace");
             });
@@ -67,7 +66,7 @@ function Login(): JSX.Element {
       </Link>
       <div className="Login-Page">
         <form action="http://localhost:4000/auth/login" method="POST">
-          <h1>Login</h1>
+          <h1 className="Logo">Login</h1>
           <input
             type="text"
             name="username"
