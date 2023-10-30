@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 function Home(): JSX.Element {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookies] = useCookies(["access_token"]);
 
   return (
@@ -37,6 +38,19 @@ function Home(): JSX.Element {
             </button>
           </Link>
         </div>
+        <section className="button-wrapper">
+          <p>
+            With Quartzx Space we allow synchronous Access and modifcation to
+            files in the cloud. This allows for a more seemless experience when
+            making notes and working with friends so feel free to be able
+            explore the wonders and powers of QuartzxSpace.
+          </p>
+        </section>
+        <h1>Be able to access notes in one place </h1>
+        <h2>
+          With QuartzxSpace you are able to create and access notes with friends
+          from anywhere around the world{" "}
+        </h2>
       </div>
     </>
   );
