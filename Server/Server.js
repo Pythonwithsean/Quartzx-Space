@@ -28,7 +28,7 @@ app.use("/auth", userRouter);
 
 //Creating Server
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server }); 
+const wss = new WebSocket.Server({ server });
 
 //Post when the front or client is sending data to server
 // Get when the front or client is getting data from server
