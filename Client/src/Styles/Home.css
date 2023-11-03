@@ -19,7 +19,7 @@
 .Nav ul li :link{
     color: #4ED9AC;
     text-decoration: none;
-    transition: all .4s ease-in-out;
+    transition: all 0.12s ease-in-out;
     font-weight: 500;
     border-left: 1px solid black;
     padding-left: 10px;
@@ -52,7 +52,7 @@
 
 }
 .Logout-button{
-    transition: .4s ease-in-out;
+    transition: .2s ease-in-out;
     margin-right: 10px;
 }
 

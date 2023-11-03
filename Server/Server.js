@@ -33,13 +33,6 @@ const wss = new WebSocket.Server({ server });
 //Post when the front or client is sending data to server
 // Get when the front or client is getting data from server
 
-app.get("/api", (req, res) => {
-  res.json([
-    { id: 1, name: "John" },
-    { id: 2, name: "Jane" },
-  ]); // Return some dummy data}]});
-});
-
 //POST FOR SENDING DATA
 //REQUEST FOR GETTING DATA
 
