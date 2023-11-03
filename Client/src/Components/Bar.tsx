@@ -2,7 +2,7 @@ import "../Styles/Bar.css";
 import { Home } from "lucide-react";
 import { Search } from "lucide-react";
 import { StickyNote } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const items = [
   {

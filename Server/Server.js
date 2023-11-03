@@ -10,6 +10,7 @@ const uri = `mongodb+srv://pythonwithsean:${pwd}@quartzx.ehghmhv.mongodb.net/?re
 const { userRouter } = require("./Routes/User.js");
 const http = require("http");
 const WebSocket = require("ws");
+import { NoteRouter } from "./Routes/Notes.js";
 
 //Connnecting database to server
 mongoose
@@ -25,6 +26,7 @@ mongoose
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/auth", userRouter);
+app.use("/notes", NoteRouter);
 
 //Creating Server
 const server = http.createServer(app);
