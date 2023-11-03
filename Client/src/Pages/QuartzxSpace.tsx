@@ -5,10 +5,13 @@ import Bar from "../Components/Bar";
 function QuartzxSpace(): JSX.Element {
   return (
     <>
-      <Link to="/" className="Logo">
-        Quartzx Space
-      </Link>
       <Bar />
+      <div className="Wrapper">
+        {" "}
+        <Link to="/" className="Logo">
+          Quartzx Space
+        </Link>
+      </div>
     </>
   );
 }

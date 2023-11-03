@@ -1,9 +1,40 @@
+import "../Styles/Bar.css";
+import { Home } from "lucide-react";
+import { Search } from "lucide-react";
+import { StickyNote } from "lucide-react";
+import { useEffect, useState } from "react";
+
+const items = [
+  {
+    name: "Home",
+    icon: <Home />,
+  },
+  {
+    name: "Search",
+    icon: <Search />,
+  },
+  {
+    name: "Create a Note",
+    icon: <StickyNote />,
+  },
+];
+
 function Bar() {
+  const [active, setActive] = useState("Home");
   return (
-    <div>
+    <div className="SIDEBAR ">
       <ul>
-        <li>Home</li>
-        <li>Create a Note</li>
+        {items.map((item) => {
+          return (
+            <li
+              onClick={() => setActive(item.name)}
+              className={item.name == active ? "Active" : ""}
+            >
+              {item.icon}
+              <button>{item.name}</button>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
