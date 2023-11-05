@@ -1,7 +1,7 @@
-// import Header from "../Components/Header";
 import { Link } from "react-router-dom";
 import Bar from "../Components/Bar";
-
+import TextEditor from "../Components/TextEditor";
+import "../Styles/QuartzxSpace.css";
 function QuartzxSpace(): JSX.Element {
   return (
     <>
@@ -11,6 +11,9 @@ function QuartzxSpace(): JSX.Element {
         <Link to="/" className="Logo">
           Quartzx Space
         </Link>
+      </div>
+      <div className="Text-Area">
+        <TextEditor />
       </div>
     </>
   );

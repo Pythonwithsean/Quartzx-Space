@@ -15,4 +15,6 @@ const notesScheme = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
-const Note = mongoose.model("Note", notesScheme);
+const NoteModel = mongoose.model("Note", notesScheme);
+
+module.exports = NoteModel;
