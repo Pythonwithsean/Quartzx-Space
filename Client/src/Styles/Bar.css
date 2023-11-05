@@ -33,7 +33,7 @@
 
 .SIDEBAR > ul li:hover{
     background-color: #000000;
-    cursor: pointer;
+    cursor: pointer;    
 }
 
 .Active{

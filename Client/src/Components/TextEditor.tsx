@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import "quill/dist/quill.snow.css";
 import Quill from "quill";
+import "../Styles/TextEditor.css";
 
 export default function TextEditor() {
   const wrapperRef = useCallback((wrapper: HTMLDivElement | null) => {
