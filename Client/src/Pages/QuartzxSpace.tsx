@@ -3,7 +3,7 @@ import Bar from "../Components/Bar";
 import TextEditor from "../Components/TextEditor";
 import "../Styles/QuartzxSpace.css";
 function QuartzxSpace(): JSX.Element {
-  return (
+  return (  
     <>
       <Bar />
       <div className="Wrapper">

@@ -24,9 +24,10 @@ function Bar() {
   return (
     <div className="SIDEBAR ">
       <ul>
-        {items.map((item) => {
+        {items.map((item, index) => {
           return (
             <li
+              key={index}
               onClick={() => setActive(item.name)}
               className={item.name == active ? "Active" : ""}
             >

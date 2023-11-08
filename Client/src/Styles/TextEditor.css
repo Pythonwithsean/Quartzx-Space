@@ -2,12 +2,196 @@
   box-sizing: border-box;
 }
 
+#container{
+    border: none;
+}
+
 
 #container .ql-editor{
-    width: 8.5in;
+    width: 100%;
     min-height: 11in;
     padding: 1in;
     margin: 1rem;
+    box-shadow: 10px 10px 5px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    border: none ;
 
 }
 
+#container .ql-editor .ql-snow{
+    border: none;
+    display: flex;
+    justify-content: center;
+}
+
+#container .ql-snow{
+    border: none;
+}
+
+
+
+#container .ql-toolbar {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    position: sticky;
+    top:0;
+    z-index: 1;
+    border: none;
+    box-shadow: 10px 10px 5px rgba(0,0,0,0.1);
+    color: white;
+
+    
+
+}
+
+#container svg, .ql-stroke{
+    border: none;
+
+    fill: white
+}
+
+#container svg line, .ql-stroke{
+    border: none;
+    stroke: white;
+
+
+}
+
+#container svg path{
+    border: none;
+    stroke: white;
+
+
+}
+
+#container button{
+    color:white;
+    stroke: white;
+    fill: white;
+}
+
+
+#container .ql-toolbar .ql-formats{
+    display: flex;
+    justify-content: center;
+    border: none;
+    margin: 0 auto;
+    position: sticky;
+    top:0;
+    z-index: 1;
+    color: white;
+}
+
+#container  .ql-picker-label{
+    border: none;
+    color: white;
+    stroke: white;
+    fill: white;
+}
+
+
+#container .ql-formats > button{
+    border: none;
+    background-color: transparent;
+    padding: 0 5px 0 5px;
+    width: 67%;
+}
+
+@media print{
+    #container .ql-toolbar{
+        display: none;
+    }
+    #container .ql-formats{
+        display: none;
+    }
+    #container .ql-editor{
+        width: 100%;
+        min-height: 11in;
+        padding: 1in;
+        margin: 1rem;
+        box-shadow: 10px 10px 5px rgba(0,0,0,0.1);
+        margin: 0 auto;
+        border: none ;
+    
+    }
+    #container .ql-editor .ql-snow{
+        border: none;
+        display: flex;
+        justify-content: center;
+    }
+    
+    #container .ql-snow{
+        border: none;
+    }
+    
+    
+    
+    #container .ql-toolbar {
+        display: none;
+        justify-content: center;
+        margin: 0 auto;
+        position: sticky;
+        top:0;
+        z-index: 1;
+        border: none;
+        box-shadow: 10px 10px 5px rgba(0,0,0,0.1);
+        color: white;
+    
+        
+    
+    }
+    
+    #container svg, .ql-stroke{
+        border: none;
+    
+        fill: white
+    }
+    
+    #container svg line, .ql-stroke{
+        border: none;
+        stroke: white;
+    
+    
+    }
+    
+    #container svg path{
+        border: none;
+        stroke: white;
+    
+    
+    }
+    
+    #container button{
+        color:white;
+        stroke: white;
+        fill: white;
+    }
+    
+    
+    #container .ql-toolbar .ql-formats{
+        display: none;
+        justify-content: center;
+        border: none;
+        margin: 0 auto;
+        position: sticky;
+        top:0;
+        z-index: 1;
+        color: white;
+    }
+    
+    #container  .ql-picker-label{
+        border: none;
+        color: white;
+        stroke: white;
+        fill: white;
+    }
+    
+    
+    #container .ql-formats > button{
+        border: none;
+        background-color: transparent;
+        padding: 0 5px 0 5px;
+        width: 67%;
+    }
+}
