@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/socket.io-client": "^3.0.0",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.11.7",
     "lucide-react": "^0.289.0",
@@ -19,7 +20,8 @@
     "react-cookie": "^6.1.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
     "@types/draft-js": "^0.11.14",

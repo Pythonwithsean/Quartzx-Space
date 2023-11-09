@@ -57,3 +57,10 @@
     
     margin: 10px auto;
 }
+
+
+@media print{
+    .SIDEBAR{
+        display: none;
+    }
+}

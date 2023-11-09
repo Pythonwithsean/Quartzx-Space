@@ -8,8 +8,12 @@ const mongoose = require("mongoose");
 const pwd = encodeURIComponent(process.env.MONGO_PASSWORD);
 const uri = `mongodb+srv://pythonwithsean:${pwd}@quartzx.ehghmhv.mongodb.net/?retryWrites=true&w=majority`;
 const { userRouter } = require("./Routes/User.js");
-const http = require("http");
-const WebSocket = require("ws");
+const io = require("socket.io")(5000 || 3001, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+  },
+});
 const { NoteRouter } = require("./Routes/Notes.js");
 
 //Connnecting database to server
@@ -28,9 +32,9 @@ app.use(bodyParser.json());
 app.use("/auth", userRouter);
 app.use("/notes", NoteRouter);
 
-//Creating Server
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+io.on("connection", (socket) => {
+  console.log("Connected to socket");
+});
 
 //Post when the front or client is sending data to server
 // Get when the front or client is getting data from server
