@@ -8,6 +8,11 @@ router.use(cors());
 router.post("/send-notes", async (req, res) => {
   const notes = await req.body;
   console.log(notes);
+  if (NotesModel.findOne({ title: notes.title }) || notes.title === "") {
+    return res.status(400).json({ message: "Invalid notes" });
+  } else if (NotesModel.findOne({ title: notes.title }) === null) {
+    return res.status(400).json({ message: "Notes already exists" });
+  }
   const newNotes = new NotesModel(notes);
   await newNotes.save();
 });
@@ -17,8 +22,15 @@ router.get("/get-notes", async (req, res) => {
 
   res.json({
     notes: notes,
-
     message: "Notes retrieved successfully",
+  });
+});
+
+router.delete("/delete-notes", async (req, res) => {
+  const { title } = req.body;
+  await NotesModel.deleteOne({ title: title });
+  res.json({
+    message: "Notes deleted successfully",
   });
 });
 

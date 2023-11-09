@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Home, Search, StickyNote } from "lucide-react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../Styles/QuartzxSpace.css";
 import "../Styles/Bar.css";
 
@@ -37,24 +36,42 @@ async function CreateNote() {
   }).then((response) => console.log(response));
 }
 
-function Delete() {}
-
 async function GetNotes() {
-  fetch("http://localhost:4000/notes/get-notes").then((response) =>
-    response.json().then((data) => {
-      const notes = data.notes;
-      return notes;
-    })
-  );
+  const response = await fetch("http://localhost:4000/notes/get-notes");
+  const data = await response.json();
+  const notes = data.notes || [];
+  return notes;
 }
+
+async function DeleteNotes() {
+  fetch("http://localhost:4000/notes/delete-notes", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      title: "Test Note",
+      content: "This is a test note",
+    }),
+  }).then((response) => console.log(response));
+}
+
+DeleteNotes();
 
 function QuartzxSpace(): JSX.Element {
   const [active, setActive] = useState("Home");
+  const [notes, setNotes] = useState([]); // State to store the fetched notes
   const username = window.localStorage.getItem("username");
 
   useEffect(() => {
-    GetNotes();
-  }, []);
+    // Fetch notes and update state
+    async function fetchNotes() {
+      const fetchedNotes = await GetNotes();
+      setNotes(fetchedNotes);
+    }
+
+    fetchNotes(); // Create a note (you may want to handle this differently)
+  }, []); // The empty dependency array ensures this effect runs once on mount
 
   return (
     <>
@@ -68,6 +85,12 @@ function QuartzxSpace(): JSX.Element {
             >
               {item.icon}
               <button>{item.name}</button>
+            </li>
+          ))}
+          {/* Dynamically render notes in the sidebar */}
+          {notes.map((note, index) => (
+            <li key={index} className="Note">
+              <span className="NoteTitle">{note.title}</span>
             </li>
           ))}
         </ul>
