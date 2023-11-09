@@ -40,7 +40,8 @@ function Login(): JSX.Element {
             response.json().then((data) => {
               setCookies("access_token", data.token);
               window.localStorage.setItem("userID", data.userID);
-              navigate("/QuartzxSpace");
+              window.localStorage.setItem("username", data.username);
+              navigate("/Dashboard");
             });
           }
         });

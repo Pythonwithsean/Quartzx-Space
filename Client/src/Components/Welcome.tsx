@@ -26,7 +26,7 @@ function Home(): JSX.Element {
               alt="Note taking"
             />
             <div className="button-wrapper">
-              <Link to={cookies.access_token ? "/QuartzxSpace" : "/Login"}>
+              <Link to={cookies.access_token ? "/Dashboard" : "/Login"}>
                 {" "}
                 <button type="button" className="notes-button">
                   Make Some Notes

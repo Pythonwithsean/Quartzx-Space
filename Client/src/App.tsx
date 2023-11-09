@@ -10,6 +10,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import { v4 as uuidv4 } from "uuid";
 import TextEditor from "./Components/TextEditor";
+import QuartzxSpace from "./Pages/QuartzxSpace";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="/Dashboard" element={<QuartzxSpace />} />
         <Route path="/QuartzxSpace/:id" element={<TextEditor />} />
         <Route
           path="/QuartzxSpace/*"

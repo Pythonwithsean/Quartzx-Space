@@ -56,7 +56,11 @@ router.post("/login", async (req, res) => {
 
   const token = jwt.sign({ id: existingUser._id }, process.env.Token);
   // Password is correct, proceed with the login
-  res.json({ token, userID: existingUser._id });
+  res.json({
+    token,
+    userID: existingUser._id,
+    username: existingUser.username,
+  });
   console.log("Login successful");
 });
 

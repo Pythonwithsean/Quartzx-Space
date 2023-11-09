@@ -29,7 +29,7 @@ function Header(): JSX.Element {
                 setCookies("access_token", "");
                 window.localStorage.removeItem("access_token");
                 window.localStorage.removeItem("userID");
-                navigate("/Login");
+                navigate("/");
                 console.log("Logged out");
               }}
             >
@@ -41,7 +41,7 @@ function Header(): JSX.Element {
         <li>
           {" "}
           <Link
-            to={cookies.access_token ? "/QuartzxSpace" : "/Login"}
+            to={cookies.access_token ? "/Dashboard" : "/Login"}
             className="Our-Services"
           >
             Use Our Product
