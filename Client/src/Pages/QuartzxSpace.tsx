@@ -42,7 +42,8 @@ function Delete() {}
 async function GetNotes() {
   fetch("http://localhost:4000/notes/get-notes").then((response) =>
     response.json().then((data) => {
-      window.localStorage.setItem("notes", JSON.stringify(data));
+      const notes = data.notes;
+      return notes;
     })
   );
 }
@@ -53,7 +54,6 @@ function QuartzxSpace(): JSX.Element {
 
   useEffect(() => {
     GetNotes();
-    CreateNote();
   }, []);
 
   return (
