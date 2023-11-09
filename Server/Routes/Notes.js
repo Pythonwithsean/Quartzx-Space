@@ -7,7 +7,19 @@ router.use(cors());
 
 router.post("/send-notes", async (req, res) => {
   const notes = await req.body;
-  console.log(newNote);
+  console.log(notes);
+  const newNotes = new NotesModel(notes);
+  await newNotes.save();
+});
+
+router.get("/get-notes", async (req, res) => {
+  const notes = await NotesModel.find();
+
+  res.json({
+    notes: notes,
+
+    message: "Notes retrieved successfully",
+  });
 });
 
 module.exports = { NoteRouter: router };
