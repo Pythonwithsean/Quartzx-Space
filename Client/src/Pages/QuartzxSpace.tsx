@@ -42,9 +42,7 @@ function Delete() {}
 async function GetNotes() {
   fetch("http://localhost:4000/notes/get-notes").then((response) =>
     response.json().then((data) => {
-      window.localStorage.setItem("notes-titles", data.title);
-      console.log(data.title);
-      console.log(data);
+      window.localStorage.setItem("notes", JSON.stringify(data));
     })
   );
 }
