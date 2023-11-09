@@ -34,6 +34,10 @@ app.use("/notes", NoteRouter);
 
 io.on("connection", (socket) => {
   console.log("Connected to socket");
+  socket.on("send-changes", (delta) => {
+    console.log("Received changes");
+    socket.broadcast.emit("receive-changes", delta);
+  });
 });
 
 //Post when the front or client is sending data to server
