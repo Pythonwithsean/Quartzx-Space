@@ -3,6 +3,7 @@ import "quill/dist/quill.snow.css";
 import Quill from "quill";
 import "../Styles/TextEditor.css";
 import { io, Socket } from "socket.io-client";
+import { Link } from "react-router-dom";
 
 const TOOLBAR_OPTIONS = [
   ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -24,7 +25,7 @@ const TOOLBAR_OPTIONS = [
   ["clean"],
 ];
 
-export default function TextEditor() {
+export default function TextEditor(): JSX.Element {
   const [socket, setSocket] = useState<Socket | undefined>(undefined);
   const [quill, setQuill] = useState<Quill | undefined>(undefined);
   useEffect(() => {
