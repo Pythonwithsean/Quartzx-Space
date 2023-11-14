@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import { Home, Search, StickyNote } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import "../Styles/QuartzxSpace.css";
 import "../Styles/Bar.css";
-import e from "cors";
 
 const items = [
   {
