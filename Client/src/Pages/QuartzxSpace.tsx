@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { Home, Search, StickyNote } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "../Styles/QuartzxSpace.css";
 import "../Styles/Bar.css";
+import e from "cors";
 
 const items = [
   {
@@ -23,15 +24,18 @@ function CapitalizeFirstletter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-async function CreateNote() {
+async function CreateNote(
+  noteTitle: string | null,
+  noteContent: string | null
+) {
   fetch("http://localhost:4000/notes/send-notes", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      title: "Test Note",
-      content: "This is a test note",
+      title: noteTitle,
+      content: noteContent,
     }),
   }).then((response) => console.log(response));
 }
@@ -56,12 +60,12 @@ async function DeleteNotes() {
   }).then((response) => console.log(response));
 }
 
-DeleteNotes();
-
 function QuartzxSpace(): JSX.Element {
   const [active, setActive] = useState("Home");
   const [notes, setNotes] = useState([]); // State to store the fetched notes
   const username = window.localStorage.getItem("username");
+  const [r, setR] = useState(false);
+  const [noteTitle, setNoteTitle] = useState("");
 
   useEffect(() => {
     // Fetch notes and update state
@@ -80,7 +84,12 @@ function QuartzxSpace(): JSX.Element {
           {items.map((item, index) => (
             <li
               key={index}
-              onClick={() => setActive(item.name)}
+              onClick={() => {
+                setActive(item.name);
+                {
+                  item.name === "Create a Note" ? setR(true) : null;
+                }
+              }}
               className={item.name === active ? "Active" : ""}
             >
               {item.icon}
@@ -93,6 +102,22 @@ function QuartzxSpace(): JSX.Element {
               <span className="NoteTitle">{note.title}</span>
             </li>
           ))}
+          {r ? (
+            <input
+              type="text"
+              placeholder="Title"
+              value={noteTitle}
+              onChange={(e) => {
+                setNoteTitle(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  console.log(noteTitle);
+                  setR(false);
+                }
+              }}
+            />
+          ) : null}
         </ul>
       </div>
 

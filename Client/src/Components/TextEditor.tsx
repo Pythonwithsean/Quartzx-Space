@@ -37,6 +37,8 @@ export default function TextEditor(): JSX.Element {
     };
   }, []); // Make sure to pass an empty dependency array if you only want to run this effect once
 
+  const id = window.location.pathname.split("/")[2];
+
   useEffect(() => {
     if (socket == null || quill == null) return;
 
