@@ -3,7 +3,6 @@ import "quill/dist/quill.snow.css";
 import Quill from "quill";
 import "../Styles/TextEditor.css";
 import { io, Socket } from "socket.io-client";
-import { Link } from "react-router-dom";
 
 const TOOLBAR_OPTIONS = [
   ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -28,6 +27,7 @@ const TOOLBAR_OPTIONS = [
 export default function TextEditor(): JSX.Element {
   const [socket, setSocket] = useState<Socket | undefined>(undefined);
   const [quill, setQuill] = useState<Quill | undefined>(undefined);
+  const [contents, setContents] = useState<string>(" ");
   useEffect(() => {
     const s: Socket = io("http://localhost:5000");
     setSocket(s);
@@ -37,6 +37,13 @@ export default function TextEditor(): JSX.Element {
     };
   }, []); // Make sure to pass an empty dependency array if you only want to run this effect once
 
+  useEffect(() => {
+    let keyStrokes = {
+      key: contents,
+    };
+    socket?.emit("send-changes", keyStrokes.key);
+  }, [contents]);
+
   const id = window.location.pathname.split("/")[2];
 
   useEffect(() => {
@@ -45,6 +52,7 @@ export default function TextEditor(): JSX.Element {
     const handler = (delta, oldDelta, source) => {
       if (source !== "user") return;
       socket?.emit("send-changes", delta);
+      setContents((prev) => (prev += quill?.getContents()["ops"][0]["insert"]));
     };
 
     quill?.on("text-change", handler);

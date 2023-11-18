@@ -5,6 +5,18 @@ const NotesModel = require("../models/notes.models.js");
 const e = require("cors");
 const router = express.Router();
 router.use(cors());
+const io = require("socket.io")(5000 || 3001, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  socket.on("send-changes", (keystrokes) => {
+    console.log(keystrokes);
+  });
+});
 
 router.post("/send-notes", async (req, res) => {
   const notes = req.body;

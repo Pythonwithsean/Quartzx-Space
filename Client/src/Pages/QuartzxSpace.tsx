@@ -3,6 +3,7 @@ import { Home, Search, StickyNote } from "lucide-react";
 import { useEffect, useState } from "react";
 import "../Styles/QuartzxSpace.css";
 import "../Styles/Bar.css";
+import contents from "../Components/TextEditor";
 
 const items = [
   {
@@ -108,10 +109,11 @@ function QuartzxSpace(): JSX.Element {
               value={noteTitle}
               onChange={(e) => {
                 setNoteTitle(e.target.value);
+                console.log(noteTitle);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  console.log(noteTitle);
+                  console.log(`This is the note Title ${noteTitle}`);
                   setR(false);
                 }
               }}
