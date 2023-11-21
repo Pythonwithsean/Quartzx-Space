@@ -38,11 +38,21 @@ export default function TextEditor(): JSX.Element {
   }, []); // Make sure to pass an empty dependency array if you only want to run this effect once
 
   useEffect(() => {
-    let keyStrokes = {
+    const keyStrokes = {
       key: contents,
     };
     socket?.emit("send-changes", keyStrokes.key);
-  }, [contents]);
+    fetch("http://localhost:4000/notes/send-notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: id,
+        content: keyStrokes.key,
+      }),
+    }).then((response) => console.log(response));
+  }, [contents, socket]);
 
   const id = window.location.pathname.split("/")[2];
 

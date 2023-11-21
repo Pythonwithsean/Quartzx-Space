@@ -21,10 +21,10 @@ function App() {
         <Route path="/Register" element={<Register />} />
         <Route path="/Dashboard" element={<QuartzxSpace />} />
         <Route path="/QuartzxSpace/:id" element={<TextEditor />} />
-        <Route
+        {/* <Route
           path="/QuartzxSpace/*"
           element={<Navigate to={`/QuartzxSpace/${uuidv4()}`} />}
-        />
+        /> */}
       </Routes>
     </Router>
   );

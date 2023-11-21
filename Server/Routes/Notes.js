@@ -12,14 +12,9 @@ const io = require("socket.io")(5000 || 3001, {
   },
 });
 
-io.on("connection", (socket) => {
-  socket.on("send-changes", (keystrokes) => {
-    console.log(keystrokes);
-  });
-});
-
 router.post("/send-notes", async (req, res) => {
   const notes = req.body;
+  console.log(notes);
 
   try {
     // Check if title and content exist

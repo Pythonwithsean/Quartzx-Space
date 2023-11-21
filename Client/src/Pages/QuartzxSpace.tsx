@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import "../Styles/QuartzxSpace.css";
 import "../Styles/Bar.css";
 import contents from "../Components/TextEditor";
+import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const items = [
   {
@@ -24,20 +26,17 @@ function CapitalizeFirstletter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-async function CreateNote(
-  noteTitle: string | null,
-  noteContent: string | null
-) {
-  fetch("http://localhost:4000/notes/send-notes", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      title: noteTitle,
-      content: noteContent,
-    }),
-  }).then((response) => console.log(response));
+async function CreateNote() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const id = setTimeout(() => {
+      navigate(`/QuartzxSpace/${uuidv4()}`);
+    }, 1);
+
+    return () => {
+      clearInterval(id);
+    };
+  });
 }
 
 async function GetNotes() {
@@ -61,6 +60,7 @@ async function DeleteNotes() {
 }
 
 function QuartzxSpace(): JSX.Element {
+  const navigate = useNavigate();
   const [active, setActive] = useState("Home");
   const [notes, setNotes] = useState([]); // State to store the fetched notes
   const username = window.localStorage.getItem("username");
@@ -87,7 +87,10 @@ function QuartzxSpace(): JSX.Element {
               onClick={() => {
                 setActive(item.name);
                 {
-                  item.name === "Create a Note" ? setR(true) : null;
+                  item.name === "Create a Note"
+                    ? setR(true)
+                    : // ? navigate(`/QuartzxSpace/${uuidv4()}`)
+                      null;
                 }
               }}
               className={item.name === active ? "Active" : ""}
@@ -113,7 +116,6 @@ function QuartzxSpace(): JSX.Element {
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  console.log(`This is the note Title ${noteTitle}`);
                   setR(false);
                 }
               }}
