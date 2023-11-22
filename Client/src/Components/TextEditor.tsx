@@ -42,7 +42,7 @@ export default function TextEditor(): JSX.Element {
       key: contents,
     };
     socket?.emit("send-changes", keyStrokes.key);
-    fetch("http://localhost:4000/notes/send-notes", {
+    fetch(`http://localhost:4000/notes/${id}/update-notes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -52,6 +52,10 @@ export default function TextEditor(): JSX.Element {
         content: keyStrokes.key,
       }),
     }).then((response) => console.log(response));
+
+    return () => {
+      socket?.disconnect();
+    };
   }, [contents, socket]);
 
   const id = window.location.pathname.split("/")[2];

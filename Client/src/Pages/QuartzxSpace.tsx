@@ -3,8 +3,6 @@ import { Home, Search, StickyNote } from "lucide-react";
 import { useEffect, useState } from "react";
 import "../Styles/QuartzxSpace.css";
 import "../Styles/Bar.css";
-import contents from "../Components/TextEditor";
-import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 
 const items = [
@@ -26,18 +24,38 @@ function CapitalizeFirstletter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-async function CreateNote() {
-  const navigate = useNavigate();
-  useEffect(() => {
-    const id = setTimeout(() => {
-      navigate(`/QuartzxSpace/${uuidv4()}`);
-    }, 1);
+async function CreateNote(noteTitle: string) {
+  try {
+    const noteT = await noteTitle;
 
-    return () => {
-      clearInterval(id);
-    };
-  });
+    const response = await fetch("http://localhost:4000/notes/send-notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: noteT,
+      }),
+    });
+
+    if (response.ok) {
+      // Handle successful response
+      console.log("Note created successfully");
+    } else {
+      // Handle non-successful response (e.g., show an error message)
+      console.error(
+        "Failed to create note:",
+        response.status,
+        response.statusText
+      );
+    }
+  } catch (error) {
+    // Handle any other errors that might occur
+    console.error("Error creating note:", error);
+  }
 }
+
+//Todo: Make a post request to the server to create a note with the title passed in from this note
 
 async function GetNotes() {
   const response = await fetch("http://localhost:4000/notes/get-notes");
@@ -46,26 +64,26 @@ async function GetNotes() {
   return notes;
 }
 
-async function DeleteNotes() {
-  fetch("http://localhost:4000/notes/delete-notes", {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      title: "Test Note",
-      content: "This is a test note",
-    }),
-  }).then((response) => console.log(response));
-}
+// async function DeleteNotes() {
+//   fetch("http://localhost:4000/notes/delete-notes", {
+//     method: "DELETE",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       title: "Test Note",
+//       content: "This is a test note",
+//     }),
+//   }).then((response) => console.log(response));
+// }
 
 function QuartzxSpace(): JSX.Element {
-  const navigate = useNavigate();
   const [active, setActive] = useState("Home");
   const [notes, setNotes] = useState([]); // State to store the fetched notes
   const username = window.localStorage.getItem("username");
   const [r, setR] = useState(false);
   const [noteTitle, setNoteTitle] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch notes and update state
@@ -88,9 +106,11 @@ function QuartzxSpace(): JSX.Element {
                 setActive(item.name);
                 {
                   item.name === "Create a Note"
-                    ? setR(true)
-                    : // ? navigate(`/QuartzxSpace/${uuidv4()}`)
-                      null;
+                    ? (() => {
+                        setR(true);
+                        CreateNote(noteTitle);
+                      })()
+                    : null;
                 }
               }}
               className={item.name === active ? "Active" : ""}
@@ -99,10 +119,12 @@ function QuartzxSpace(): JSX.Element {
               <button>{item.name}</button>
             </li>
           ))}
+
           {/* Dynamically render notes in the sidebar */}
+          <h4>Notes</h4>
           {notes.map((note, index) => (
             <li key={index} className="Note">
-              <span className="NoteTitle">{note.title}</span>
+              <span className="NoteTitle">{note}</span>
             </li>
           ))}
           {r ? (
@@ -112,11 +134,12 @@ function QuartzxSpace(): JSX.Element {
               value={noteTitle}
               onChange={(e) => {
                 setNoteTitle(e.target.value);
-                console.log(noteTitle);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
+                  CreateNote(noteTitle);
                   setR(false);
+                  navigate(`/QuartzxSpace/${noteTitle}`);
                 }
               }}
             />

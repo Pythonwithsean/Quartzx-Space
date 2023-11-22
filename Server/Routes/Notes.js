@@ -18,9 +18,9 @@ router.post("/send-notes", async (req, res) => {
 
   try {
     // Check if title and content exist
-    if (!notes.title || !notes.content) {
+    if (!notes.title) {
       return res.json({
-        message: "Title and content are required for saving notes.",
+        message: "Title is required.",
       });
     }
 
@@ -36,7 +36,6 @@ router.post("/send-notes", async (req, res) => {
     // Save the new note
     const newNote = new NotesModel({
       title: notes.title,
-      content: notes.content,
     });
 
     await newNote.save();
@@ -51,13 +50,39 @@ router.post("/send-notes", async (req, res) => {
   }
 });
 
-router.get("/get-notes", async (req, res) => {
-  const notes = await NotesModel.find();
+router.post("/:id/update-notes", async (req, res) => {
+  const body = await req.body;
+  const { title } = body;
+  console.log(body.content);
+
+  const existingNote = await NotesModel.findOne({ title: title });
+
+  if (existingNote) {
+    await NotesModel.updateOne({ title: title }, { content: body.content });
+  }
 
   res.json({
-    notes: notes,
-    message: "Notes retrieved successfully",
+    message: "Notes updated successfully",
   });
+});
+
+router.get("/get-notes", async (req, res) => {
+  try {
+    const notes = await NotesModel.find({});
+
+    // Extract titles from the array of notes
+    const titles = notes.map((note) => note.title);
+
+    res.json({
+      notes: titles,
+      message: "Notes retrieved successfully",
+    });
+  } catch (error) {
+    console.error("Error retrieving notes:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
 });
 
 router.delete("/delete-notes", async (req, res) => {

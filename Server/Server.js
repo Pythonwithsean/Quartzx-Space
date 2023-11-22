@@ -39,12 +39,6 @@ io.on("connection", (socket) => {
   });
 });
 
-//Post when the front or client is sending data to server
-// Get when the front or client is getting data from server
-
-//POST FOR SENDING DATA
-//REQUEST FOR GETTING DATA
-
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
