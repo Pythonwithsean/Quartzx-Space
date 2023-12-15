@@ -12,9 +12,8 @@ const io = require("socket.io")(5000 || 3001, {
   },
 });
 
-router.post("/send-notes", async (req, res) => {
+router.post("/Create-Notes", async (req, res) => {
   const notes = req.body;
-  console.log(notes);
 
   try {
     // Check if title and content exist
@@ -51,19 +50,25 @@ router.post("/send-notes", async (req, res) => {
 });
 
 router.post("/:id/update-notes", async (req, res) => {
-  const body = await req.body;
-  const { title } = body;
-  console.log(body.content);
+  try {
+    const { title, content } = req.body;
 
-  const existingNote = await NotesModel.findOne({ title: title });
+    const existingNote = await ContentModel.findOne({ title: title });
 
-  if (existingNote) {
-    await NotesModel.updateOne({ title: title }, { content: body.content });
+    if (existingNote) {
+      await ContentModel.updateOne({ title: title }, { content: content });
+    } else {
+      // If the note doesn't exist, create a new one
+      await ContentModel.create({ title: title, content: content });
+    }
+
+    res.json({
+      message: "Notes updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating notes:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-
-  res.json({
-    message: "Notes updated successfully",
-  });
 });
 
 router.get("/get-notes", async (req, res) => {
@@ -83,6 +88,16 @@ router.get("/get-notes", async (req, res) => {
       error: "Internal Server Error",
     });
   }
+});
+
+router.get("/:id/get-notes-content", async (req, res) => {
+  const title = req.params.id;
+
+  notesModel = await NotesModel.findOne({ title: title });
+  res.json({
+    content: notesModel,
+    message: "Notes retrieved successfully",
+  });
 });
 
 router.delete("/delete-notes", async (req, res) => {

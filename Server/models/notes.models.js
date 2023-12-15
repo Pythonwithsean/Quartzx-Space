@@ -5,7 +5,6 @@ const notesScheme = new mongoose.Schema({
     type: String,
     required: true,
   },
-  content: String,
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 

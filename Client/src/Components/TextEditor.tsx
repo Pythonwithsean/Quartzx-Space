@@ -58,6 +58,23 @@ export default function TextEditor(): JSX.Element {
     };
   }, [contents, socket]);
 
+  // useEffect(() => {
+  //   fetch(`http://localhost:4000/notes/${id}/get-notes-content`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => {
+  //       console.log(res);
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       setContents(data.content);
+  //     });
+  // }, [contents]);
+
   const id = window.location.pathname.split("/")[2];
 
   useEffect(() => {

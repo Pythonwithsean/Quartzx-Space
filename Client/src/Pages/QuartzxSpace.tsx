@@ -28,7 +28,7 @@ async function CreateNote(noteTitle: string) {
   try {
     const noteT = await noteTitle;
 
-    const response = await fetch("http://localhost:4000/notes/send-notes", {
+    const response = await fetch("http://localhost:4000/notes/Create-Notes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,8 +55,6 @@ async function CreateNote(noteTitle: string) {
   }
 }
 
-//Todo: Make a post request to the server to create a note with the title passed in from this note
-
 async function GetNotes() {
   const response = await fetch("http://localhost:4000/notes/get-notes");
   const data = await response.json();
@@ -79,7 +77,7 @@ async function GetNotes() {
 
 function QuartzxSpace(): JSX.Element {
   const [active, setActive] = useState("Home");
-  const [notes, setNotes] = useState([]); // State to store the fetched notes
+  const [notes, setNotes] = useState<string[]>([]); // State to store the fetched notes
   const username = window.localStorage.getItem("username");
   const [r, setR] = useState(false);
   const [noteTitle, setNoteTitle] = useState("");
@@ -95,6 +93,49 @@ function QuartzxSpace(): JSX.Element {
     fetchNotes(); // Create a note (you may want to handle this differently)
   }, []); // The empty dependency array ensures this effect runs once on mount
 
+  // Function to create a new note
+  async function CreateNote() {
+    try {
+      // Remove leading and trailing spaces
+      const trimmedTitle = noteTitle.trim();
+
+      if (!trimmedTitle) {
+        // Display an alert if the title is empty or contains only spaces
+        alert(
+          "Note title cannot be empty or contain only spaces. Please enter a valid title."
+        );
+        return;
+      }
+
+      const response = await fetch("http://localhost:4000/notes/Create-Notes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: trimmedTitle,
+        }),
+      });
+
+      if (response.ok) {
+        // Handle successful response
+        console.log("Note created successfully");
+      } else {
+        // Handle non-successful response (e.g., show an error message)
+        console.error(
+          "Failed to create note:",
+          response.status,
+          response.statusText
+        );
+      }
+    } catch (error) {
+      // Handle any other errors that might occur
+      console.error("Error creating note:", error);
+    } finally {
+      setNoteTitle(""); // Clear the noteTitle after creating the note
+    }
+  }
+
   return (
     <>
       <div className="SIDEBAR">
@@ -108,7 +149,7 @@ function QuartzxSpace(): JSX.Element {
                   item.name === "Create a Note"
                     ? (() => {
                         setR(true);
-                        CreateNote(noteTitle);
+                        CreateNote();
                       })()
                     : null;
                 }
@@ -124,7 +165,12 @@ function QuartzxSpace(): JSX.Element {
           <h4>Notes</h4>
           {notes.map((note, index) => (
             <li key={index} className="Note">
-              <span className="NoteTitle">{note}</span>
+              <span
+                className="NoteTitle"
+                onClick={() => navigate(`/QuartzxSpace/${note}`)}
+              >
+                {note}
+              </span>
             </li>
           ))}
           {r ? (
@@ -133,11 +179,12 @@ function QuartzxSpace(): JSX.Element {
               placeholder="Title"
               value={noteTitle}
               onChange={(e) => {
-                setNoteTitle(e.target.value);
+                // Prevent leading and trailing spaces
+                setNoteTitle(e.target.value.trim());
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  CreateNote(noteTitle);
+                  CreateNote();
                   setR(false);
                   navigate(`/QuartzxSpace/${noteTitle}`);
                 }
