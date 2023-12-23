@@ -19,12 +19,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
-        <Route path="/Dashboard" element={<QuartzxSpace />} />
-        <Route path="/QuartzxSpace/:id" element={<TextEditor />} />
-        {/* <Route
-          path="/QuartzxSpace/*"
-          element={<Navigate to={`/QuartzxSpace/${uuidv4()}`} />}
-        /> */}
+        <Route
+          path="/Dashboard"
+          element={<QuartzxSpace Children={<TextEditor />} />}
+        />
       </Routes>
     </Router>
   );
