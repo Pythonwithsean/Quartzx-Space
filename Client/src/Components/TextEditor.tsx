@@ -69,6 +69,7 @@ export default function TextEditor(): JSX.Element {
   //       console.log(res);
   //       return res.json();
   //     })
+
   //     .then((data) => {
   //       console.log(data);
   //       setContents(data.content);
