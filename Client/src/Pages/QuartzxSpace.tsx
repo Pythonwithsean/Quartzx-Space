@@ -15,36 +15,40 @@ function CapitalizeFirstletter(string: string) {
 //Todo make the Delete note function get the URI of the note and then use that URI to delete the note
 
 // Async Function to Create a Note through the API
-async function CreateNote(noteTitlex: string): Promise<void> {
-  try {
-    const noteT = await noteTitle;
+// async function CreateNote(noteTitlex: string): Promise<void> {
+//   try {
+//     const noteT = await noteTitle;
 
-    const response = await fetch("http://localhost:4000/notes/Create-Notes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: noteT,
-      }),
-    });
+//     const response = await fetch("http://localhost:4000/notes/Create-Notes", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         title: noteT,
+//       }),
+//     });
 
-    if (response.ok) {
-      // Handle successful response
-      console.log("Note created successfully");
-    } else {
-      // Handle non-successful response (e.g., show an error message)
-      console.error(
-        "Failed to create note:",
-        response.status,
-        response.statusText
-      );
-    }
-  } catch (error) {
-    // Handle any other errors that might occur
-    console.error("Error creating note:", error);
-  }
-}
+//     if (response.ok) {
+//       // Handle successful response
+//       console.log("Note created successfully");
+//     } else {
+//       // Handle non-successful response (e.g., show an error message)
+//       console.error(
+//         "Failed to create note:",
+//         response.status,
+//         response.statusText
+//       );
+//     }
+//   } catch (error) {
+//     // Handle any other errors that might occur
+//     console.error("Error creating note:", error);
+//   }
+// }
+
+const navigateToNote = (noteTitle: string) => {
+  window.location.href = window.location.origin + `/Dashboard/${noteTitle}`;
+};
 
 // Async Function to Get Notes through the API
 async function GetNotes() {
@@ -97,12 +101,6 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
             <StickyNote />
             Add New Note
           </li>
-
-          <li>
-            <Trash2 />
-            Delete a Note
-          </li>
-
           {r ? (
             <input
               type="text"
@@ -118,16 +116,23 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
               }}
             />
           ) : null}
+
+          <li>
+            <Trash2 />
+            Delete a Note
+          </li>
+
           {/* Dynamically render notes in the sidebar */}
           <h4>List Of Notes</h4>
           {notes.map((note, index) => (
-            <li key={index} className="Note">
-              <span
-                className="NoteTitle"
-                onClick={() => navigate(`/QuartzxSpace/${note}`)}
-              >
-                {note}
-              </span>
+            <li
+              key={index}
+              className="Note"
+              onClick={() => {
+                navigateToNote(note);
+              }}
+            >
+              <span className="NoteTitle">{note}</span>
             </li>
           ))}
         </ul>

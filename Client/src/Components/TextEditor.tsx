@@ -3,6 +3,7 @@ import "quill/dist/quill.snow.css";
 import Quill from "quill";
 import "../Styles/TextEditor.css";
 import { io, Socket } from "socket.io-client";
+import { DeltaOperation, DeltaStatic } from "quill";
 
 const TOOLBAR_OPTIONS = [
   ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -27,7 +28,8 @@ const TOOLBAR_OPTIONS = [
 export default function TextEditor(): JSX.Element {
   const [socket, setSocket] = useState<Socket | undefined>(undefined);
   const [quill, setQuill] = useState<Quill | undefined>(undefined);
-  const [contents, setContents] = useState<string>(" ");
+  // const [contents, setContents] = useState<string>(" ");
+
   useEffect(() => {
     const s: Socket = io("http://localhost:5000");
     setSocket(s);
@@ -37,54 +39,17 @@ export default function TextEditor(): JSX.Element {
     };
   }, []); // Make sure to pass an empty dependency array if you only want to run this effect once
 
-  useEffect(() => {
-    const keyStrokes = {
-      key: contents,
-    };
-    socket?.emit("send-changes", keyStrokes.key);
-    fetch(`http://localhost:4000/notes/${id}/update-notes`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: id,
-        content: keyStrokes.key,
-      }),
-    }).then((response) => console.log(response));
-
-    return () => {
-      socket?.disconnect();
-    };
-  }, [contents, socket]);
-
-  // useEffect(() => {
-  //   fetch(`http://localhost:4000/notes/${id}/get-notes-content`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => {
-  //       console.log(res);
-  //       return res.json();
-  //     })
-
-  //     .then((data) => {
-  //       console.log(data);
-  //       setContents(data.content);
-  //     });
-  // }, [contents]);
-
-  const id = window.location.pathname.split("/")[2];
+  interface Delta {
+    ops?: DeltaOperation[] | undefined;
+  }
 
   useEffect(() => {
     if (socket == null || quill == null) return;
 
-    const handler = (delta, oldDelta, source) => {
+    const handler = (delta: Delta, oldDelta: Delta, source: string) => {
       if (source !== "user") return;
-      socket?.emit("send-changes", delta);
-      setContents((prev) => (prev += quill?.getContents()["ops"][0]["insert"]));
+      console.log("TextChange", delta);
+      console.log(quill.getContents());
     };
 
     quill?.on("text-change", handler);
@@ -97,8 +62,9 @@ export default function TextEditor(): JSX.Element {
   useEffect(() => {
     if (socket == null || quill == null) return;
 
-    const handler = (delta) => {
+    const handler = (delta: DeltaStatic) => {
       quill?.updateContents(delta);
+      console.log("Receive-Changes", delta);
     };
 
     socket?.on("receive-changes", handler);
