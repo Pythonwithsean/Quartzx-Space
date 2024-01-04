@@ -32,6 +32,7 @@ app.use(bodyParser.json());
 app.use("/auth", userRouter);
 app.use("/notes", NoteRouter);
 
+//Broadcast Changes too all clients
 io.on("connection", (socket) => {
   console.log("Connected to socket");
   socket.on("send-changes", (delta) => {

@@ -4,6 +4,8 @@ import { useEffect, useState, ReactNode } from "react";
 import "../Styles/QuartzxSpace.css";
 import "../Styles/Bar.css";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import CreateNote from "../utils/CreatNote";
 
 //Function to Capitalize the first letter of a string
 function CapitalizeFirstletter(string: string) {
@@ -14,40 +16,9 @@ function CapitalizeFirstletter(string: string) {
 //Todo make the Get note function get the URI of the note and then use that URI to get the note
 //Todo make the Delete note function get the URI of the note and then use that URI to delete the note
 
-// Async Function to Create a Note through the API
-// async function CreateNote(noteTitlex: string): Promise<void> {
-//   try {
-//     const noteT = await noteTitle;
-
-//     const response = await fetch("http://localhost:4000/notes/Create-Notes", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         title: noteT,
-//       }),
-//     });
-
-//     if (response.ok) {
-//       // Handle successful response
-//       console.log("Note created successfully");
-//     } else {
-//       // Handle non-successful response (e.g., show an error message)
-//       console.error(
-//         "Failed to create note:",
-//         response.status,
-//         response.statusText
-//       );
-//     }
-//   } catch (error) {
-//     // Handle any other errors that might occur
-//     console.error("Error creating note:", error);
-//   }
-// }
-
-const navigateToNote = (noteTitle: string) => {
-  window.location.href = window.location.origin + `/Dashboard/${noteTitle}`;
+export const navigateToNote = (noteTitle: string) => {
+  window.location.href =
+    window.location.origin + `/Dashboard/${noteTitle}/${uuidv4()}`;
 };
 
 // Async Function to Get Notes through the API
@@ -112,6 +83,7 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   setR(false);
+                  CreateNote(noteTitle);
                 }
               }}
             />
@@ -143,6 +115,8 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
         </Link>
         {/* Display the username if available */}
         {username && <h1>Welcome {CapitalizeFirstletter(username)}</h1>}
+        <h1>Currently on {window.location.href.split("/")[4]} </h1>
+
         <div className="Text-Area">{Children}</div>
       </div>
     </>

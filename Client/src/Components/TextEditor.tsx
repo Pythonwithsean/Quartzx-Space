@@ -18,9 +18,8 @@ const TOOLBAR_OPTIONS = [
   [{ size: ["small", false, "large", "huge"] }], // custom dropdown
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
-  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+  [{ color: [] }, { background: [""] }], // dropdown with defaults from theme
   [{ font: [] }],
-  [{ align: [] }],
 
   ["clean"],
 ];
@@ -28,10 +27,10 @@ const TOOLBAR_OPTIONS = [
 export default function TextEditor(): JSX.Element {
   const [socket, setSocket] = useState<Socket | undefined>(undefined);
   const [quill, setQuill] = useState<Quill | undefined>(undefined);
-  // const [contents, setContents] = useState<string>(" ");
 
+  //Socket Connection
   useEffect(() => {
-    const s: Socket = io("http://localhost:5000");
+    const s: Socket = io("http://localhost:5001");
     setSocket(s);
 
     return () => {
@@ -39,6 +38,7 @@ export default function TextEditor(): JSX.Element {
     };
   }, []); // Make sure to pass an empty dependency array if you only want to run this effect once
 
+  //Delta interface type
   interface Delta {
     ops?: DeltaOperation[] | undefined;
   }
@@ -48,8 +48,9 @@ export default function TextEditor(): JSX.Element {
 
     const handler = (delta: Delta, oldDelta: Delta, source: string) => {
       if (source !== "user") return;
-      console.log("TextChange", delta);
-      console.log(quill.getContents());
+
+      console.log("sending changes", delta);
+      socket.emit("send-changes", delta);
     };
 
     quill?.on("text-change", handler);
@@ -59,18 +60,19 @@ export default function TextEditor(): JSX.Element {
     };
   }, [socket, quill]);
 
+  //Asyncrhonous updates
   useEffect(() => {
     if (socket == null || quill == null) return;
 
     const handler = (delta: DeltaStatic) => {
+      console.log("recieved changes", delta);
       quill?.updateContents(delta);
-      console.log("Receive-Changes", delta);
     };
 
-    socket?.on("receive-changes", handler);
+    socket?.on("receive-changes", handler); // // Connect to the server event "receive-changes"
 
     return () => {
-      socket?.off("receive-changes", handler);
+      socket?.off("receive-changes", handler); // Change event name to "receive-changes"
     };
   }, [socket, quill]);
 

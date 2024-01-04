@@ -5,6 +5,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import TextEditor from "./Components/TextEditor";
 import QuartzxSpace from "./Pages/QuartzxSpace";
+import NotFound from "./Pages/NotFound";
 
 function App() {
   return (
@@ -14,9 +15,10 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
         <Route
-          path="/Dashboard?/:notetitle"
+          path="/Dashboard?/:noteDetails?/:noteID?"
           element={<QuartzxSpace Children={<TextEditor />} />}
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
