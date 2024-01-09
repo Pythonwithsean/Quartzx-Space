@@ -116,7 +116,6 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
         {/* Display the username if available */}
         {username && <h1>Welcome {CapitalizeFirstletter(username)}</h1>}
         <h1>Currently on {window.location.href.split("/")[4]} </h1>
-
         <div className="Text-Area">{Children}</div>
       </div>
     </>

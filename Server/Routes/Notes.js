@@ -2,7 +2,14 @@ require("dotenv").config(); // Load environment variables from .env file
 const cors = require("cors");
 const express = require("express");
 const NotesModel = require("../models/notes.models.js");
-const e = require("cors");
+
+const io = require("socket.io")(5003 || 3001, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+
 const router = express.Router();
 router.use(cors());
 
@@ -63,9 +70,17 @@ router.get("/get-notes", async (req, res) => {
   }
 });
 
-//Saving Notes Content to Database
+io.on("connection", (socket) => {
+  console.log("Connected to socket");
+  socket.on("send-changes", (delta, oldDelta, title, id) => {
+    console.log(id);
+    console.log(title);
+    console.log(oldDelta);
+    socket.broadcast.emit("receive-changes", delta);
+  });
+});
 
-router.post("/save-notes", async (req, res) => {});
+//Saving Notes Content to Database
 
 router.delete("/delete-notes", async (req, res) => {
   const { title } = req.body;
