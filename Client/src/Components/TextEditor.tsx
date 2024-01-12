@@ -22,6 +22,10 @@ const TOOLBAR_OPTIONS = [
   [{ color: [] }, { background: [""] }], // dropdown with defaults from theme
   [{ font: [] }],
 
+  [{ align: [] }],
+
+  ["image", "video"],
+
   ["clean"],
 ];
 
@@ -30,16 +34,6 @@ export default function TextEditor(): JSX.Element {
   const [quill, setQuill] = useState<Quill | undefined>(undefined);
   const { noteID: documentId } = useParams<{ noteID: string }>();
   const { noteTitle: documentTitle } = useParams<{ noteTitle: string }>();
-
-  useEffect(() => {
-    if (socket == null || quill == null) return;
-
-    socket.once("load-document", (document: string) => {
-      quill?.setContents(JSON.parse(document));
-      quill?.enable();
-    });
-    socket.emit("get-document", documentId);
-  }, [documentId, documentTitle, socket, quill]);
 
   //Socket Connection
   useEffect(() => {
@@ -50,15 +44,10 @@ export default function TextEditor(): JSX.Element {
       s.disconnect();
     };
   }, []);
-  // Make sure to pass an empty dependency array if you only want to run this effect once
-
-  //Delta interface type
 
   type Delta = {
     ops?: DeltaOperation[] | undefined;
   };
-
-  //Payload for sending changes
 
   useEffect(() => {
     if (socket == null || quill == null) return;
@@ -67,17 +56,48 @@ export default function TextEditor(): JSX.Element {
       if (source !== "user") return;
 
       socket.emit("send-changes", delta, oldDelta, documentTitle, documentId);
-      return () => {
-        socket?.off("send-changes", handler);
-      };
     };
 
+    // Set up the "load-document" event handler
+    socket.once("load-document", (document: string) => {
+      quill?.setContents(JSON.parse(document));
+      quill?.enable();
+    });
+
+    // Set up the "text-change" event handler
     quill?.on("text-change", handler);
 
+    // Emit the "get-document" event
+    socket.emit("get-document", documentId);
+
+    // Cleanup event handlers on component unmount
     return () => {
       quill?.off("text-change", handler);
     };
   }, [socket, quill, documentTitle, documentId]);
+
+  useEffect(() => {
+    if (quill == null || socket == null) return;
+
+    if (documentTitle === undefined || documentId === undefined) {
+      quill.disable();
+      quill.setText("Select a note to edit");
+      return;
+    }
+    quill.enable();
+
+    socket.once("load-document", (document: string) => {
+      console.log(document);
+      quill?.setContents(JSON.parse(document));
+      quill?.enable();
+    });
+
+    socket.emit("get-document", documentId, documentTitle);
+  }, [documentTitle, documentId, socket, quill]);
+
+  useEffect(() => {
+    if (quill == null || socket == null) return;
+  }, [documentTitle, socket, quill]);
 
   //function to send contents to database
 
@@ -85,8 +105,16 @@ export default function TextEditor(): JSX.Element {
   useEffect(() => {
     if (socket == null || quill == null) return;
 
-    const handler = (delta: DeltaStatic) => {
-      quill?.updateContents(delta);
+    const handler = (
+      delta: DeltaStatic,
+      _oldDelta: DeltaStatic,
+      _Title: string,
+      _id: string,
+      sender: string
+    ) => {
+      if (sender !== socket.id) {
+        quill?.updateContents(delta);
+      }
     };
 
     socket?.on("receive-changes", handler); // // Connect to the server event "receive-changes"
@@ -107,8 +135,7 @@ export default function TextEditor(): JSX.Element {
       theme: "snow",
       modules: { toolbar: TOOLBAR_OPTIONS },
     });
-    q.disable();
-    q.setText("Loading...");
+
     setQuill(q);
   }, []);
 

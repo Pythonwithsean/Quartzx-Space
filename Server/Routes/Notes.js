@@ -2,6 +2,7 @@ require("dotenv").config(); // Load environment variables from .env file
 const cors = require("cors");
 const express = require("express");
 const NotesModel = require("../models/notes.models.js");
+const { Socket } = require("socket.io");
 
 const io = require("socket.io")(5003 || 3001, {
   cors: {
@@ -70,13 +71,94 @@ router.get("/get-notes", async (req, res) => {
   }
 });
 
+const DEFAULTVALUE = {};
+
+const findOrCreateDocument = async (id, title) => {
+  if (id === undefined || title === undefined) return;
+  const document = await NotesModel.findOne({ title: title });
+  if (document) return document;
+  return await NotesModel.create({
+    title: title,
+    id: id,
+    content: DEFAULTVALUE,
+  });
+};
+
+const saveNotes = async (id, title, delta) => {
+  if (
+    id === undefined ||
+    title === undefined ||
+    delta === undefined ||
+    delta === null
+  ) {
+    console.log("Undefined values");
+    return;
+  }
+
+  console.log("Delta: ", JSON.stringify(delta));
+
+  const document = await NotesModel.findOneAndUpdate(
+    { title: title },
+    { content: delta }
+  );
+  if (document) {
+    console.log("Document found");
+  }
+
+  console.log("Notes saved successfully");
+};
+
 io.on("connection", (socket) => {
   console.log("Connected to socket");
-  socket.on("send-changes", (delta, oldDelta, title, id) => {
-    console.log(id);
-    console.log(title);
-    console.log(oldDelta);
-    socket.broadcast.emit("receive-changes", delta);
+
+  socket.on("get-document", (id, title) => {
+    if (id === undefined || title === undefined) return;
+    const document = findOrCreateDocument(id, title);
+    if (document) {
+      socket.join(id);
+      socket.emit("load-document", document.content);
+      socket.on("send-changes", (delta, oldDelta, title, id) => {
+        saveNotes(id, title, delta);
+        const sender = socket.id;
+        socket.broadcast
+          .to(id)
+          .emit("receive-changes", delta, oldDelta, title, id, sender);
+      });
+    }
+
+    socket.join(id);
+
+    socket.on("send-changes", (delta, oldDelta, title, id) => {
+      saveNotes(id, title, delta);
+      const sender = socket.id;
+      socket.broadcast
+        .to(id)
+        .emit("receive-changes", delta, oldDelta, title, id, sender);
+    });
+  });
+});
+io.on("connection", (socket) => {
+  console.log("Connected to socket");
+
+  socket.on("get-document", async (id, title) => {
+    if (id === undefined || title === undefined) return;
+
+    // Ensure the socket joins the room only once
+    if (!socket.rooms[id]) {
+      socket.join(id);
+    }
+
+    const document = await findOrCreateDocument(id, title);
+
+    socket.emit("load-document", document.content);
+
+    socket.on("send-changes", (delta, oldDelta, title, id) => {
+      saveNotes(id, title, delta);
+      const sender = socket.id;
+      socket.broadcast
+        .to(id)
+        .emit("receive-changes", delta, oldDelta, title, id, sender);
+    });
   });
 });
 

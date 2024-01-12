@@ -5,11 +5,11 @@ const notesScheme = new mongoose.Schema({
     type: String,
     required: true,
   },
-  version: {
+  id: {
+    type: String,
     required: true,
-    type: Number,
-    default: 1,
   },
+  content: Object,
 });
 
 const NoteModel = mongoose.model("Note", notesScheme);
