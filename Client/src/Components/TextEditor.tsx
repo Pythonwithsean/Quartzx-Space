@@ -49,33 +49,32 @@ export default function TextEditor(): JSX.Element {
     ops?: DeltaOperation[] | undefined;
   };
 
+  // Function to Update content TextEditor
   useEffect(() => {
     if (socket == null || quill == null) return;
 
     const handler = (delta: Delta, oldDelta: Delta, source: string) => {
       if (source !== "user") return;
 
-      socket.emit("send-changes", delta, oldDelta, documentTitle, documentId);
+      socket.emit("send-changes", delta, oldDelta, documentTitle);
     };
-
-    // Set up the "load-document" event handler
-    socket.once("load-document", (document: string) => {
-      quill?.setContents(JSON.parse(document));
-      quill?.enable();
-    });
 
     // Set up the "text-change" event handler
     quill?.on("text-change", handler);
 
     // Emit the "get-document" event
-    socket.emit("get-document", documentId);
 
     // Cleanup event handlers on component unmount
     return () => {
       quill?.off("text-change", handler);
     };
-  }, [socket, quill, documentTitle, documentId]);
+  }, [socket, quill, documentTitle]);
 
+  // type DocumentType = {
+
+  // }
+
+  //Function that ensures that the user has a note Selected and show contents of the user once they are connected
   useEffect(() => {
     if (quill == null || socket == null) return;
 
@@ -84,43 +83,25 @@ export default function TextEditor(): JSX.Element {
       quill.setText("Select a note to edit");
       return;
     }
-    quill.enable();
 
-    socket.once("load-document", (document: string) => {
-      console.log(document);
-      quill?.setContents(JSON.parse(document));
+    socket.once("load-document", (document) => {
+      quill?.setContents(document);
       quill?.enable();
     });
-
-    socket.emit("get-document", documentId, documentTitle);
   }, [documentTitle, documentId, socket, quill]);
-
-  useEffect(() => {
-    if (quill == null || socket == null) return;
-  }, [documentTitle, socket, quill]);
-
-  //function to send contents to database
 
   //Asyncrhonous updates
   useEffect(() => {
     if (socket == null || quill == null) return;
 
-    const handler = (
-      delta: DeltaStatic,
-      _oldDelta: DeltaStatic,
-      _Title: string,
-      _id: string,
-      sender: string
-    ) => {
-      if (sender !== socket.id) {
-        quill?.updateContents(delta);
-      }
+    const handler = (delta: DeltaStatic) => {
+      quill?.updateContents(delta);
     };
 
-    socket?.on("receive-changes", handler); // // Connect to the server event "receive-changes"
+    socket?.on("receive-changes", handler);
 
     return () => {
-      socket?.off("receive-changes", handler); // Change event name to "receive-changes"
+      socket?.off("receive-changes", handler);
     };
   }, [socket, quill]);
 

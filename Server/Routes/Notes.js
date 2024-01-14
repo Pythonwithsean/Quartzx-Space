@@ -84,30 +84,6 @@ const findOrCreateDocument = async (id, title) => {
   });
 };
 
-const saveNotes = async (id, title, delta) => {
-  if (
-    id === undefined ||
-    title === undefined ||
-    delta === undefined ||
-    delta === null
-  ) {
-    console.log("Undefined values");
-    return;
-  }
-
-  console.log("Delta: ", JSON.stringify(delta));
-
-  const document = await NotesModel.findOneAndUpdate(
-    { title: title },
-    { content: delta }
-  );
-  if (document) {
-    console.log("Document found");
-  }
-
-  console.log("Notes saved successfully");
-};
-
 io.on("connection", (socket) => {
   console.log("Connected to socket");
 
@@ -142,15 +118,13 @@ io.on("connection", (socket) => {
 
   socket.on("get-document", async (id, title) => {
     if (id === undefined || title === undefined) return;
-
     // Ensure the socket joins the room only once
-    if (!socket.rooms[id]) {
-      socket.join(id);
-    }
+
+    socket.join(id);
 
     const document = await findOrCreateDocument(id, title);
 
-    socket.emit("load-document", document.content);
+    // socket.emit("load-document", document.content);
 
     socket.on("send-changes", (delta, oldDelta, title, id) => {
       saveNotes(id, title, delta);

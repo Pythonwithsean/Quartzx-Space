@@ -26,6 +26,7 @@ async function GetNotes() {
   const response = await fetch("http://localhost:4000/notes/get-notes");
   const data = await response.json();
   const notes = data.notes || [];
+  console.log(notes);
   return notes;
 }
 
