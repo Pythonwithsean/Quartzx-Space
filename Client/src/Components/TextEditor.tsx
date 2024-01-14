@@ -48,31 +48,34 @@ export default function TextEditor(): JSX.Element {
   type Delta = {
     ops?: DeltaOperation[] | undefined;
   };
-
-  // Function to Update content TextEditor
   useEffect(() => {
     if (socket == null || quill == null) return;
 
     const handler = (delta: Delta, oldDelta: Delta, source: string) => {
       if (source !== "user") return;
-
-      socket.emit("send-changes", delta, oldDelta, documentTitle);
+      socket.emit("send-changes", delta, oldDelta);
     };
 
-    // Set up the "text-change" event handler
     quill?.on("text-change", handler);
 
-    // Emit the "get-document" event
-
-    // Cleanup event handlers on component unmount
     return () => {
       quill?.off("text-change", handler);
     };
   }, [socket, quill, documentTitle]);
 
-  // type DocumentType = {
+  //Save Data
 
-  // }
+  useEffect(() => {
+    if (socket == null || quill == null) return;
+
+    const interval = setInterval(() => {
+      socket.emit("save-document", quill.getContents());
+    }, 2000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [quill, socket]);
 
   //Function that ensures that the user has a note Selected and show contents of the user once they are connected
   useEffect(() => {
@@ -83,6 +86,7 @@ export default function TextEditor(): JSX.Element {
       quill.setText("Select a note to edit");
       return;
     }
+    socket.emit("get-document", documentId, documentTitle);
 
     socket.once("load-document", (document) => {
       quill?.setContents(document);
@@ -90,7 +94,6 @@ export default function TextEditor(): JSX.Element {
     });
   }, [documentTitle, documentId, socket, quill]);
 
-  //Asyncrhonous updates
   useEffect(() => {
     if (socket == null || quill == null) return;
 
