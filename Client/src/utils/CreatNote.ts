@@ -1,7 +1,13 @@
-import { navigateToNote } from "../Pages/QuartzxSpace";
+
+import { v4 as uuidv4 } from "uuid";
+
+const navigateToNote = (noteTitle: string) => {
+  window.location.href =
+    window.location.origin + `/Dashboard/${noteTitle}/${uuidv4()}`;
+};
 
 //Async Function to Create a Note through the API
-export default async function CreateNote(noteTitle: string): Promise<void> {
+export default async function CreateNote(noteTitle: string, user: string): Promise<void> {
   try {
      const response = await fetch("http://localhost:4000/notes/Create-Notes", {
       method: "POST",
@@ -10,6 +16,7 @@ export default async function CreateNote(noteTitle: string): Promise<void> {
       },
       body: JSON.stringify({
         title: noteTitle,
+        user : user
       }),
     });
 

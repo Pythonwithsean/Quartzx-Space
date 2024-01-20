@@ -15,19 +15,20 @@ router.use(cors());
 
 //Create a note
 router.post("/Create-Notes", async (req, res) => {
-  const notes = req.body;
-  console.log(notes);
+  const { title, user } = req.body;
+  console.log(title);
+  console.log(user);
 
   try {
     // Check if title and content exist
-    if (!notes.title) {
+    if (!title) {
       return res.json({
         message: "Title is required.",
       });
     }
 
     // Check if a note with the same title already exists
-    const existingNote = await NotesModel.findOne({ title: notes.title });
+    const existingNote = await NotesModel.findOne({ title: title });
 
     if (existingNote) {
       return res.json({
@@ -35,9 +36,12 @@ router.post("/Create-Notes", async (req, res) => {
       });
     }
 
+    console.log("New Notes Created");
+
     // Save the new note
     const newNote = new NotesModel({
-      title: notes.title,
+      title: title,
+      user: user,
     });
 
     await newNote.save();

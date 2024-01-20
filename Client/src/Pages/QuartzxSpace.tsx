@@ -4,7 +4,6 @@ import { useEffect, useState, ReactNode } from "react";
 import "../Styles/QuartzxSpace.css";
 import "../Styles/Bar.css";
 import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import CreateNote from "../utils/CreatNote";
 
 //Function to Capitalize the first letter of a string
@@ -15,11 +14,6 @@ function CapitalizeFirstletter(string: string) {
 //Todo make the Create note function Create a URI for the note and then use that URI to create a note
 //Todo make the Get note function get the URI of the note and then use that URI to get the note
 //Todo make the Delete note function get the URI of the note and then use that URI to delete the note
-
-export const navigateToNote = (noteTitle: string) => {
-  window.location.href =
-    window.location.origin + `/Dashboard/${noteTitle}/${uuidv4()}`;
-};
 
 // Async Function to Get Notes through the API
 async function GetNotes() {
@@ -42,6 +36,7 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
   const [r, setR] = useState(false);
   const [noteTitle, setNoteTitle] = useState("");
   const navigate = useNavigate();
+  console.log(username);
 
   useEffect(() => {
     // Fetch notes and update state
@@ -84,7 +79,10 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   setR(false);
-                  CreateNote(noteTitle);
+                  if (username !== null) {
+                    CreateNote(noteTitle, username);
+                    console.log(username);
+                  }
                 }
               }}
             />
@@ -94,7 +92,6 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
             <Trash2 />
             Delete a Note
           </li>
-
           {/* Dynamically render notes in the sidebar */}
           <h4>List Of Notes</h4>
           {notes.map((note, index) => (
@@ -102,7 +99,7 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
               key={index}
               className="Note"
               onClick={() => {
-                navigateToNote(note);
+                navigate(`/note/${note}`);
               }}
             >
               <span className="NoteTitle">{note}</span>
