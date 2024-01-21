@@ -2,6 +2,7 @@
 import { v4 as uuidv4 } from "uuid";
 
 const navigateToNote = (noteTitle: string) => {
+  console.log(noteTitle);
   window.location.href =
     window.location.origin + `/Dashboard/${noteTitle}/${uuidv4()}`;
 };

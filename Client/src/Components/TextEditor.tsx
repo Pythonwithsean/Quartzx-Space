@@ -86,7 +86,12 @@ export default function TextEditor(): JSX.Element {
       quill.setText("Select a note to edit");
       return;
     }
-    socket.emit("get-document", documentId, documentTitle);
+    socket.emit(
+      "get-document",
+      documentId,
+      documentTitle,
+      window.localStorage.getItem("username")
+    );
 
     socket.once("load-document", (document) => {
       quill?.setContents(document);

@@ -57,9 +57,14 @@ router.post("/Create-Notes", async (req, res) => {
 });
 
 //Get notes for client
-router.get("/get-notes", async (req, res) => {
+router.post("/get-notes", async (req, res) => {
+  const { user } = req.body;
+
   try {
-    const notes = await NotesModel.find({});
+    const notes = await NotesModel.find({ user: user });
+
+    if (notes.length === 0) return;
+    console.log(notes);
 
     // Extract titles from the array of notes
     const titles = notes.map((note) => note.title);
@@ -79,10 +84,13 @@ router.get("/get-notes", async (req, res) => {
 io.on("connection", (socket) => {
   console.log("Connected to socket");
 
-  socket.on("get-document", async (id, title) => {
-    const document = await NotesModel.findOne({ title: title });
+  socket.on("get-document", async (id, title, user) => {
+    console.log(user);
+    const document = await NotesModel.findOne({ title: title, user: user });
+    console.log(document);
 
     if (document) {
+      console.log("Document found");
       console.log(document.content);
       socket.emit("load-document", document.content);
     }

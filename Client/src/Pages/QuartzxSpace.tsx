@@ -5,6 +5,7 @@ import "../Styles/QuartzxSpace.css";
 import "../Styles/Bar.css";
 import { useNavigate } from "react-router-dom";
 import CreateNote from "../utils/CreatNote";
+import { v4 as uuidv4 } from "uuid";
 
 //Function to Capitalize the first letter of a string
 function CapitalizeFirstletter(string: string) {
@@ -15,9 +16,23 @@ function CapitalizeFirstletter(string: string) {
 //Todo make the Get note function get the URI of the note and then use that URI to get the note
 //Todo make the Delete note function get the URI of the note and then use that URI to delete the note
 
+const navigateToNote = (noteTitle: string) => {
+  window.location.href =
+    window.location.origin + `/Dashboard/${noteTitle}/${uuidv4()}`;
+};
+
 // Async Function to Get Notes through the API
 async function GetNotes() {
-  const response = await fetch("http://localhost:4000/notes/get-notes");
+  const response = await fetch("http://localhost:4000/notes/get-notes", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      user: window.localStorage.getItem("username"),
+    }),
+  });
+
   const data = await response.json();
   const notes = data.notes || [];
   console.log(notes);
@@ -81,7 +96,7 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
                   setR(false);
                   if (username !== null) {
                     CreateNote(noteTitle, username);
-                    console.log(username);
+                    navigateToNote(noteTitle);
                   }
                 }
               }}
@@ -99,7 +114,7 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
               key={index}
               className="Note"
               onClick={() => {
-                navigate(`/note/${note}`);
+                navigateToNote(note);
               }}
             >
               <span className="NoteTitle">{note}</span>
