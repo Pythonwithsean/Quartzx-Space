@@ -16,8 +16,6 @@ router.use(cors());
 //Create a note
 router.post("/Create-Notes", async (req, res) => {
   const { title, user } = req.body;
-  console.log(title);
-  console.log(user);
 
   try {
     // Check if title and content exist
@@ -64,7 +62,6 @@ router.post("/get-notes", async (req, res) => {
     const notes = await NotesModel.find({ user: user });
 
     if (notes.length === 0) return;
-    console.log(notes);
 
     // Extract titles from the array of notes
     const titles = notes.map((note) => note.title);
@@ -85,13 +82,9 @@ io.on("connection", (socket) => {
   console.log("Connected to socket");
 
   socket.on("get-document", async (id, title, user) => {
-    console.log(user);
     const document = await NotesModel.findOne({ title: title, user: user });
-    console.log(document);
 
     if (document) {
-      console.log("Document found");
-      console.log(document.content);
       socket.emit("load-document", document.content);
     }
 
@@ -112,11 +105,13 @@ io.on("connection", (socket) => {
 //Saving Notes Content to Database
 
 router.delete("/delete-notes", async (req, res) => {
-  const { title } = req.body;
-  await NotesModel.deleteOne({ title: title });
-  res.json({
-    message: "Notes deleted successfully",
-  });
+  const { title, user } = req.body;
+  await NotesModel.findOne({
+    title: title,
+    user: user,
+  })
+    .then((note) => NotesModel.deleteOne(note))
+    .then(res.sendStatus(200));
 });
 
 module.exports = { NoteRouter: router };

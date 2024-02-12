@@ -35,8 +35,25 @@ async function GetNotes() {
 
   const data = await response.json();
   const notes = data.notes || [];
-  console.log(notes);
+
   return notes;
+}
+
+async function deleteNotes(query: string, username: string) {
+  const reponse = await fetch("http://localhost:4000/notes/delete-notes", {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      user: username,
+      title: query,
+    }),
+  });
+  if (reponse.ok) {
+    alert("Note Deleted");
+    window.location.reload();
+  }
 }
 
 interface QuartzxSpaceProps {
@@ -48,10 +65,15 @@ interface QuartzxSpaceProps {
 function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
   const [notes, setNotes] = useState<string[]>([]); // State to store the fetched notes
   const username = window.localStorage.getItem("username");
-  const [r, setR] = useState(false);
+  const [r, setR] = useState<boolean>(false);
+  const [f, setF] = useState<boolean>(false);
+  const [s, setS] = useState<boolean>(false);
+  const [found, setFound] = useState<String[]>([]);
+  const [search, setSearch] = useState("");
   const [noteTitle, setNoteTitle] = useState("");
+
+  const [deleteNote, setDeleteNote] = useState("");
   const navigate = useNavigate();
-  console.log(username);
 
   useEffect(() => {
     // Fetch notes and update state
@@ -72,12 +94,45 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
             <Home />
             Home
           </li>
-          <li>
+          <li
+            onClick={() => {
+              setR(false);
+              setF(false);
+              setS(true);
+            }}
+          >
             <Search /> Search
           </li>
+          {s ? (
+            <input
+              type="text"
+              placeholder="Title"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value.trim());
+                () => {
+                  setFound(found.filter((element) => element === search));
+                };
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setS(false);
+                  console.log(search);
+                }
+              }}
+            />
+          ) : null}
+          {found.length !== 0
+            ? found.map((element) => {
+                console.log(element);
+                return <div>{element}</div>;
+              })
+            : null}
           <li
             onClick={() => {
               setR(true);
+              setF(false);
+              setS(false);
             }}
           >
             <StickyNote />
@@ -103,10 +158,34 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
             />
           ) : null}
 
-          <li>
+          <li
+            onClick={() => {
+              setF(true);
+              setR(false);
+              setS(false);
+            }}
+          >
             <Trash2 />
             Delete a Note
           </li>
+          {f ? (
+            <input
+              type="text"
+              placeholder="Title"
+              value={deleteNote}
+              onChange={(e) => {
+                setDeleteNote(e.target.value.trim());
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setF(false);
+                  if (username !== null) deleteNotes(deleteNote, username);
+                  setDeleteNote("");
+                }
+              }}
+            />
+          ) : null}
+
           {/* Dynamically render notes in the sidebar */}
           <h4>List Of Notes</h4>
           {notes.map((note, index) => (
