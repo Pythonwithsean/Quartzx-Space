@@ -5,7 +5,7 @@ const NotesModel = require("../models/notes.models.js");
 
 const io = require("socket.io")(443, {
   cors: {
-    origin: "*",
+    origins: "*:*",
     methods: ["GET", "POST"],
   },
 });
