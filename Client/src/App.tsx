@@ -15,7 +15,7 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
         <Route
-          path="/Dashboard?/:noteTitle?/:noteID?"
+          path="/Dashboard/:noteTitle?/:noteID?"
           element={<QuartzxSpace Children={<TextEditor />} />}
         />
         <Route path="*" element={<NotFound />} />

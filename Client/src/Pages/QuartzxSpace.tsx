@@ -16,11 +16,6 @@ function CapitalizeFirstletter(string: string) {
 //Todo make the Get note function get the URI of the note and then use that URI to get the note
 //Todo make the Delete note function get the URI of the note and then use that URI to delete the note
 
-const navigateToNote = (noteTitle: string) => {
-  window.location.href =
-    window.location.origin + `/Dashboard/${noteTitle}/${uuidv4()}`;
-};
-
 // Async Function to Get Notes through the API
 async function GetNotes() {
   const response = await fetch(
@@ -80,6 +75,10 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
 
   const [deleteNote, setDeleteNote] = useState("");
   const navigate = useNavigate();
+
+  const navigateToNote = (noteTitle: string) => {
+    navigate(`/Dashboard/${encodeURIComponent(noteTitle)}/${uuidv4()}`);
+  };
 
   useEffect(() => {
     // Fetch notes and update state
