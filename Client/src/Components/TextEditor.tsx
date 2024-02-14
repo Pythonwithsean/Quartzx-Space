@@ -37,7 +37,10 @@ export default function TextEditor(): JSX.Element {
 
   //Socket Connection
   useEffect(() => {
-    const s: Socket = io("https://quartzxspace.onrender.com");
+    const s: Socket = io(
+      "https://quartzxspace.onrender.com:5003" ||
+        "https://quartzxspace.onrender.com:3001"
+    );
     setSocket(s);
 
     return () => {
