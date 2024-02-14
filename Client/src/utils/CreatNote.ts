@@ -10,7 +10,7 @@ const navigateToNote = (noteTitle: string) => {
 //Async Function to Create a Note through the API
 export default async function CreateNote(noteTitle: string, user: string): Promise<void> {
   try {
-     const response = await fetch("http://localhost:4000/notes/Create-Notes", {
+     const response = await fetch("https://quartzxspace.onrender.com/notes/Create-Notes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +24,8 @@ export default async function CreateNote(noteTitle: string, user: string): Promi
     if (response.ok) {
       // Handle successful response
       console.log("Note created successfully");
-      navigateToNote(noteTitle);
+      navigateToNote(noteTitle)
+
 
     } else {
       // Handle non-successful response (e.g., show an error message)

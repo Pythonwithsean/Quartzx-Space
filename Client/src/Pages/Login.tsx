@@ -10,7 +10,7 @@ function Login(): JSX.Element {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [userExists, setUserExists] = useState(false);
-  const [cookies, setCookies] = useCookies(["access_token"]);
+  const [_, setCookies] = useCookies(["access_token"]);
 
   const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ function Login(): JSX.Element {
       setHasSubmitted(true);
       setIsSubmitted(true);
       try {
-        fetch("http://localhost:4000/auth/login", {
+        fetch("https://quartzxspace.onrender.com/auth/login", {
           method: "POST",
           body: JSON.stringify({
             username: username,
@@ -66,7 +66,10 @@ function Login(): JSX.Element {
         Quartzx Space
       </Link>
       <div className="Login-Page">
-        <form action="http://localhost:4000/auth/login" method="POST">
+        <form
+          action="https://quartzxspace.onrender.com/auth/login"
+          method="POST"
+        >
           <h1 className="Logo">Login</h1>
           <input
             type="text"

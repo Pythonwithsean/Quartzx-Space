@@ -47,6 +47,7 @@ router.post("/Create-Notes", async (req, res) => {
     res.json({
       message: "Note saved successfully.",
     });
+    res.statusCode(200);
   } catch (err) {
     res.json({
       error: err.message || "An error occurred while saving the note.",

@@ -18,7 +18,7 @@ function Register(): JSX.Element {
       setHasSubmitted(true);
       setIsSubmitted(true);
       try {
-        fetch("http://localhost:4000/auth/register", {
+        fetch("https://quartzxspace.onrender.com/auth/register", {
           method: "POST",
           body: JSON.stringify({
             username: username,

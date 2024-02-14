@@ -23,15 +23,18 @@ const navigateToNote = (noteTitle: string) => {
 
 // Async Function to Get Notes through the API
 async function GetNotes() {
-  const response = await fetch("http://localhost:4000/notes/get-notes", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      user: window.localStorage.getItem("username"),
-    }),
-  });
+  const response = await fetch(
+    "https://quartzxspace.onrender.com/notes/get-notes",
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        user: window.localStorage.getItem("username"),
+      }),
+    }
+  );
 
   const data = await response.json();
   const notes = data.notes || [];
@@ -40,16 +43,19 @@ async function GetNotes() {
 }
 
 async function deleteNotes(query: string, username: string) {
-  const reponse = await fetch("http://localhost:4000/notes/delete-notes", {
-    method: "DELETE",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      user: username,
-      title: query,
-    }),
-  });
+  const reponse = await fetch(
+    "https://quartzxspace.onrender.com/notes/delete-notes",
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        user: username,
+        title: query,
+      }),
+    }
+  );
   if (reponse.ok) {
     alert("Note Deleted");
     window.location.reload();

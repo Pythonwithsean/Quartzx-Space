@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 
 function Home(): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [cookies, setCookies] = useCookies(["access_token"]);
+  const [cookies, _] = useCookies(["access_token"]);
 
   return (
     <>
@@ -22,7 +22,7 @@ function Home(): JSX.Element {
           <div className="item-1">
             <img
               className="book-img"
-              src="../../public/Take-Notes-Effectively.png"
+              src="../Take-Notes-Effectively.png"
               alt="Note taking"
             />
             <div className="button-wrapper">
