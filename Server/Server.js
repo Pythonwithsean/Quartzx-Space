@@ -8,12 +8,6 @@ const mongoose = require("mongoose");
 const pwd = encodeURIComponent(process.env.MONGO_PASSWORD);
 const uri = `mongodb+srv://pythonwithsean:${pwd}@quartzx.ehghmhv.mongodb.net/?retryWrites=true&w=majority`;
 const { userRouter } = require("./Routes/User.js");
-const io = require("socket.io")(5001 || 3001, {
-  cors: {
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST"],
-  },
-});
 const { NoteRouter } = require("./Routes/Notes.js");
 
 //Connnecting database to server
@@ -32,12 +26,7 @@ app.use(bodyParser.json());
 app.use("/auth", userRouter);
 app.use("/notes", NoteRouter);
 
-io.on("connection", (socket) => {
-  console.log("Connected to socket");
-  socket.on("send-changes", (delta) => {
-    socket.broadcast.emit("receive-changes", delta);
-  });
-});
+//Broadcast Changes too all clients
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

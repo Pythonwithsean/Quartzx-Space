@@ -1,16 +1,11 @@
 import "./Styles/App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
-import { v4 as uuidv4 } from "uuid";
 import TextEditor from "./Components/TextEditor";
 import QuartzxSpace from "./Pages/QuartzxSpace";
+import NotFound from "./Pages/NotFound";
 
 function App() {
   return (
@@ -20,9 +15,14 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
         <Route
+          path="/Dashboard/:noteTitle?/:noteID?"
+          element={<QuartzxSpace Children={<TextEditor />} />}
+        />
+        <Route
           path="/Dashboard"
           element={<QuartzxSpace Children={<TextEditor />} />}
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

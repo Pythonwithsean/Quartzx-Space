@@ -5,7 +5,12 @@ const notesScheme = new mongoose.Schema({
     type: String,
     required: true,
   },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  user: {
+    type: String,
+    required: true,
+  },
+
+  content: Object,
 });
 
 const NoteModel = mongoose.model("Note", notesScheme);

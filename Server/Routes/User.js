@@ -61,7 +61,6 @@ router.post("/login", async (req, res) => {
     userID: existingUser._id,
     username: existingUser.username,
   });
-  console.log("Login successful");
 });
 
 // Define a route for user login, similar to /register
