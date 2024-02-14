@@ -2,8 +2,10 @@ require("dotenv").config(); // Load environment variables from .env file
 const cors = require("cors");
 const express = require("express");
 const NotesModel = require("../models/notes.models.js");
+const http = require("http");
 
-const io = require("socket.io")(443, {
+const server = http.createServer(app);
+const io = require("socket.io")(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
@@ -11,6 +13,9 @@ const io = require("socket.io")(443, {
 });
 
 const router = express.Router();
+server.listen(5000 || 5000, () => {
+  console.log(`Server Socket is running on ${5000}`);
+});
 router.use(cors());
 
 //Create a note
