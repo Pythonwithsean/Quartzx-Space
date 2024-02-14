@@ -1,24 +1,20 @@
 require("dotenv").config(); // Load environment variables from .env file
 const cors = require("cors");
 const express = require("express");
-const http = require("http"); // Import http module for creating the server
-const socketIo = require("socket.io");
 const NotesModel = require("../models/notes.models.js");
 
-const app = express();
-const server = http.createServer(app); // Create a server instance using Express app
-const io = socketIo(server, {
+const io = require("socket.io")(443, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
   },
 });
 
-app.use(cors());
-app.use(express.json()); // Middleware to parse JSON request bodies
+const router = express.Router();
+router.use(cors());
 
-// Define routes
-app.post("/Create-Notes", async (req, res) => {
+//Create a note
+router.post("/Create-Notes", async (req, res) => {
   const { title, user } = req.body;
 
   try {
@@ -51,15 +47,16 @@ app.post("/Create-Notes", async (req, res) => {
     res.json({
       message: "Note saved successfully.",
     });
-    res.status(200).end();
+    res.statusCode(200);
   } catch (err) {
-    res.status(500).json({
+    res.json({
       error: err.message || "An error occurred while saving the note.",
     });
   }
 });
 
-app.post("/get-notes", async (req, res) => {
+//Get notes for client
+router.post("/get-notes", async (req, res) => {
   const { user } = req.body;
 
   try {
@@ -82,18 +79,6 @@ app.post("/get-notes", async (req, res) => {
   }
 });
 
-app.delete("/delete-notes", async (req, res) => {
-  const { title, user } = req.body;
-  await NotesModel.findOne({
-    title: title,
-    user: user,
-  })
-    .then((note) => NotesModel.deleteOne(note))
-    .then(() => res.sendStatus(200))
-    .catch((err) => res.status(500).json({ error: err.message }));
-});
-
-// Socket.io connection handling
 io.on("connection", (socket) => {
   console.log("Connected to socket");
 
@@ -118,10 +103,16 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 5000; // Use the port from environment variables or default to 5000
+//Saving Notes Content to Database
 
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+router.delete("/delete-notes", async (req, res) => {
+  const { title, user } = req.body;
+  await NotesModel.findOne({
+    title: title,
+    user: user,
+  })
+    .then((note) => NotesModel.deleteOne(note))
+    .then(res.sendStatus(200));
 });
 
-module.exports = { app, server }; // Export the app and server for testing purposes
+module.exports = { NoteRouter: router };
