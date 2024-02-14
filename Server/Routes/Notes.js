@@ -58,6 +58,7 @@ router.post("/Create-Notes", async (req, res) => {
 //Get notes for client
 router.post("/get-notes", async (req, res) => {
   const { user } = req.body;
+  console.log(user);
 
   try {
     const notes = await NotesModel.find({ user: user });

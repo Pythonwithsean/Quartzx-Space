@@ -18,6 +18,10 @@ function App() {
           path="/Dashboard/:noteTitle?/:noteID?"
           element={<QuartzxSpace Children={<TextEditor />} />}
         />
+        <Route
+          path="/Dashboard"
+          element={<QuartzxSpace Children={<TextEditor />} />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

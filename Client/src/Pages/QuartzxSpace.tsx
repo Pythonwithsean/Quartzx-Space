@@ -4,7 +4,7 @@ import { useEffect, useState, ReactNode } from "react";
 import "../Styles/QuartzxSpace.css";
 import "../Styles/Bar.css";
 import { useNavigate } from "react-router-dom";
-import CreateNote from "../utils/CreatNote";
+import CreateNote from "../utils/CreateNote";
 import { v4 as uuidv4 } from "uuid";
 
 //Function to Capitalize the first letter of a string
