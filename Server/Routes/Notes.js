@@ -3,7 +3,7 @@ const cors = require("cors");
 const express = require("express");
 const NotesModel = require("../models/notes.models.js");
 
-const io = require("socket.io")(443, {
+const io = require("socket.io")(3001, {
   cors: {
     origins: "*",
     methods: ["GET", "POST"],
