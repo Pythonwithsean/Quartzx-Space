@@ -4,6 +4,7 @@ const express = require("express");
 const NotesModel = require("../models/notes.models.js");
 const http = require("http");
 
+const app = express();
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
   cors: {
