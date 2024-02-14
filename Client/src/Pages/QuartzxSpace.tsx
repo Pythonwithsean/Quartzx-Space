@@ -17,25 +17,6 @@ function CapitalizeFirstletter(string: string) {
 //Todo make the Delete note function get the URI of the note and then use that URI to delete the note
 
 // Async Function to Get Notes through the API
-async function GetNotes() {
-  const response = await fetch(
-    "https://quartzxspace.onrender.com/notes/get-notes",
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        user: window.localStorage.getItem("username"),
-      }),
-    }
-  );
-
-  const data = await response.json();
-  const notes = data.notes || [];
-
-  return notes;
-}
 
 async function deleteNotes(query: string, username: string) {
   const reponse = await fetch(
@@ -76,8 +57,28 @@ function QuartzxSpace({ Children }: QuartzxSpaceProps): JSX.Element {
   const [deleteNote, setDeleteNote] = useState("");
   const navigate = useNavigate();
 
+  async function GetNotes() {
+    const response = await fetch(
+      "https://quartzxspace.onrender.com/notes/get-notes",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          user: window.localStorage.getItem("username"),
+        }),
+      }
+    );
+
+    const data = await response.json();
+    const notes = data.notes || [];
+
+    return notes;
+  }
+
   const navigateToNote = (noteTitle: string) => {
-    navigate(`/Dashboard/${encodeURIComponent(noteTitle)}/${uuidv4()}`);
+    navigate(`/Dashboard/${noteTitle}/${uuidv4()}`);
   };
 
   useEffect(() => {
