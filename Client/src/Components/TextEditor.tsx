@@ -40,6 +40,8 @@ export default function TextEditor(): JSX.Element {
     const s: Socket = io("https://quartzxspace.onrender.com", {
       reconnection: true,
     });
+
+    s.connect();
     setSocket(s);
 
     return () => {
