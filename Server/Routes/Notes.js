@@ -3,12 +3,12 @@ const cors = require("cors");
 const express = require("express");
 const NotesModel = require("../models/notes.models.js");
 
-// const io = require("socket.io")(3001, {
-//   cors: {
-//     origins: "*",
-//     methods: ["GET", "POST"],
-//   },
-// });
+const io = require("socket.io")(100000, {
+  cors: {
+    origins: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
 const router = express.Router();
 router.use(express.json());
@@ -80,29 +80,29 @@ router.post("/get-notes", async (req, res) => {
   }
 });
 
-// io.on("connection", (socket) => {
-//   console.log("Connected to socket");
+io.on("connection", (socket) => {
+  console.log("Connected to socket");
 
-//   socket.on("get-document", async (id, title, user) => {
-//     const document = await NotesModel.findOne({ title: title, user: user });
+  socket.on("get-document", async (id, title, user) => {
+    const document = await NotesModel.findOne({ title: title, user: user });
 
-//     if (document) {
-//       socket.emit("load-document", document.content);
-//     }
+    if (document) {
+      socket.emit("load-document", document.content);
+    }
 
-//     socket.join(id);
+    socket.join(id);
 
-//     socket.on("save-document", async (data) => {
-//       await NotesModel.findOneAndUpdate(
-//         { title: title },
-//         { $set: { content: data } }
-//       );
-//     });
-//     socket.on("send-changes", async (delta, oldDelta) => {
-//       socket.broadcast.to(id).emit("receive-changes", delta, oldDelta, title);
-//     });
-//   });
-// });
+    socket.on("save-document", async (data) => {
+      await NotesModel.findOneAndUpdate(
+        { title: title },
+        { $set: { content: data } }
+      );
+    });
+    socket.on("send-changes", async (delta, oldDelta) => {
+      socket.broadcast.to(id).emit("receive-changes", delta, oldDelta, title);
+    });
+  });
+});
 
 //Saving Notes Content to Database
 
