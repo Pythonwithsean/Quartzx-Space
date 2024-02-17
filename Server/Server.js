@@ -11,10 +11,6 @@ const { userRouter } = require("./Routes/User.js");
 const { NoteRouter } = require("./Routes/Notes.js");
 
 
-
-
-
-
 //Connnecting database to server
 mongoose
   .connect(uri, {
