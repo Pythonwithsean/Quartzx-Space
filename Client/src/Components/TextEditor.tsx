@@ -37,10 +37,16 @@ export default function TextEditor(): JSX.Element {
 
   //Socket Connection
   useEffect(() => {
-    const s: Socket = io("https://quartzxspace.onrender.com:5001", {
+    const s: Socket = io("https://quartzxspace.onrender.com", {
       reconnection: true,
+      transports : ["WebSocket"],
     });
     setSocket(s);
+
+    s.on("connection_error", (err) => {
+      console.log(err.req)
+      console.log(err)
+    })
 
     return () => {
       s.disconnect();
