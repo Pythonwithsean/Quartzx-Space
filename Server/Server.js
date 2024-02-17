@@ -13,6 +13,10 @@ const http = require("http")
 const server = http.createServer(app);
 const NotesModel = require("./models/notes.models.js");
 
+
+server.listen(5001)
+
+
 const io = require("socket.io")(server, {
   cors: {
     origins: "*",
@@ -20,7 +24,6 @@ const io = require("socket.io")(server, {
   },
 });
 
-server.listen(5001)
 
 //New
 io.on("connection", (socket) => {
