@@ -28,9 +28,8 @@ app.use("/auth", userRouter);
 app.use("/notes", NoteRouter);
 
 //Broadcast Changes too all clients
-
-app.listen(PORT, () => {
+ app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
 
-module.exports = app;
+
