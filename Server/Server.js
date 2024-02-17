@@ -9,7 +9,7 @@ const pwd = encodeURIComponent(process.env.MONGO_PASSWORD);
 const uri = `mongodb+srv://pythonwithsean:${pwd}@quartzx.ehghmhv.mongodb.net/?retryWrites=true&w=majority`;
 const { userRouter } = require("./Routes/User.js");
 const { NoteRouter } = require("./Routes/Notes.js");
-const http = require("http");
+const http = require("http")
 const server = http.createServer(app);
 const NotesModel = require("./models/notes.models.js");
 
@@ -19,6 +19,9 @@ const io = require("socket.io")(server, {
     methods: ["GET", "POST"],
   },
 });
+
+server.listen(5001)
+
 //New
 io.on("connection", (socket) => {
   console.log("Connected to socket");
