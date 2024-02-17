@@ -2,8 +2,9 @@ require("dotenv").config(); // Load environment variables from .env file
 const cors = require("cors");
 const express = require("express");
 const NotesModel = require("../models/notes.models.js");
+const app = require("../Server.js")
 
-const io = require("socket.io")(20000, {
+const io = require("socket.io")(app, {
   cors: {
     origins: "*",
     methods: ["GET", "POST"],
