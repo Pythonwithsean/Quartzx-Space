@@ -22,7 +22,7 @@ function Login(): JSX.Element {
       setHasSubmitted(true);
       setIsSubmitted(true);
       try {
-        fetch("https://quartzxspace.onrender.com/auth/login", {
+        fetch("http://localhost:3001/auth/login", {
           method: "POST",
           body: JSON.stringify({
             username: username,
@@ -66,10 +66,7 @@ function Login(): JSX.Element {
         Quartzx Space
       </Link>
       <div className="Login-Page">
-        <form
-          action="https://quartzxspace.onrender.com/auth/login"
-          method="POST"
-        >
+        <form action="" method="POST">
           <h1 className="Logo">Login</h1>
           <input
             type="text"

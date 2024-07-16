@@ -2,7 +2,7 @@ require("dotenv").config(); // Load environment variables from .env file
 const cors = require("cors");
 const express = require("express");
 const NotesModel = require("../models/notes.models.js");
-const PORT = process.env.WEBSOCKET_PORT || 4002
+const PORT = process.env.WEBSOCKET_PORT || 4002;
 
 const io = require("socket.io")(PORT, {
   cors: {

@@ -4,7 +4,7 @@ export default async function CreateNote(noteTitle: string, user: string): Promi
 
 
   try {
-    const response = await fetch("https://quartzxspace.onrender.com/notes/Create-Notes", {
+    const response = await fetch("http://localhost:3001/notes/Create-Notes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

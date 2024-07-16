@@ -34,13 +34,9 @@ export default function TextEditor(): JSX.Element {
   const [quill, setQuill] = useState<Quill | undefined>(undefined);
   const { noteID: documentId } = useParams<{ noteID: string }>();
   const { noteTitle: documentTitle } = useParams<{ noteTitle: string }>();
-
   //Socket Connection
   useEffect(() => {
-    const s: Socket = io("https://quartzxspace.onrender.com", {
-    
-      
-    });
+    const s: Socket = io("http://localhost:4002", {});
     setSocket(s);
 
     s.on("connect", () => {
