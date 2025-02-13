@@ -1,0 +1,35 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  background-color: #f0f0f0;
+  background-repeat: no-repeat;
+  background: url("../assets/Sprinkle.svg");
+  background-size: contain;
+  background-blend-mode: darken;
+}
+
+.Container h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #000;
+  text-align: center;
+  letter-spacing: -0.04em;
+  background-color: #fff;
+  text-wrap: balance;
+}
+
+.Container button {
+  background-color: rgb(26 139 126 / var(--tw-text-opacity, 1));
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 2rem;
+}
