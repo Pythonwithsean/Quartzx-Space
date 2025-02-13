@@ -1,3 +1,22 @@
-nav{
-    background-color: transparent;
+nav {
+  position: fixed;
+  display: flex;
+  max-width: 100%;
+  width: 80%;
+  margin: 1rem auto;
+  border: 1px solid black;
+  padding: 1rem;
+  left: 0;
+  right: 0;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  margin-left: auto;
+  gap: 0.8rem;
+}
+
+nav h2 {
+  font-weight: 800;
 }

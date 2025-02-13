@@ -1,21 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import "../Styles/Header.css";
 
-function Header(): JSX.Element {
+function Header() {
   const [cookies, setCookies] = useCookies(["access_token"]);
   const navigate = useNavigate();
 
   return (
-    <nav className="Nav">
-      <ul className="">
+    <nav>
+      <h2>Quartzx Space</h2>
+      <ul>
         {!cookies.access_token ? (
           <>
             {" "}
             <li>
-              <Link to="/Login">Login</Link>
+              <Link to="/Login" className="">
+                Login
+              </Link>
             </li>
             <li>
               <Link to="/Register">Register</Link>
