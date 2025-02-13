@@ -1,14 +1,17 @@
 nav {
   position: fixed;
   display: flex;
+  justify-content: center;
+  align-items: center;
   max-width: 100%;
   width: 80%;
   margin: 1rem auto;
-  border: 1px solid black;
   padding: 1rem;
   left: 0;
   right: 0;
-  background-color: #fff;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  border: 1px dotted #000;
 }
 
 nav ul {
