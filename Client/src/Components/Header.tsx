@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router";
 import { useCookies } from "react-cookie";
 import { LogOut } from "lucide-react";
+import { StickyNote, Send } from "lucide-react";
 import "../Styles/Header.css";
 
 function Header() {
@@ -9,8 +10,19 @@ function Header() {
 
   return (
     <nav>
-      <h2>Quartzx Space</h2>
+      <h2
+        style={{
+          color: " rgb(26 139 126 / var(--tw-text-opacity, 1))",
+        }}
+      >
+        Quartzx Space{" "}
+        <span style={{ display: "inline-block", margin: "auto" }}>
+          {" "}
+          <Send size={16} />
+        </span>
+      </h2>
       <ul>
+        {" "}
         {!cookies.access_token ? (
           <>
             {" "}
@@ -39,7 +51,6 @@ function Header() {
             </LogOut>
           </li>
         )}
-
         <li>
           {" "}
           <Link

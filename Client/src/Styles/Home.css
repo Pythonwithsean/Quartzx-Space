@@ -5,10 +5,10 @@
   justify-content: center;
   align-items: center;
   width: 100vw;
-  background-color: #f0f0f0;
+  background: url("../assets/ColoredShapes.svg");
   background-repeat: no-repeat;
-  background: url("../assets/Sprinkle.svg");
-  background-size: contain;
+  background-color: #fff;
+  background-size: cover;
   background-blend-mode: darken;
 }
 
@@ -18,18 +18,40 @@
   color: #000;
   text-align: center;
   letter-spacing: -0.04em;
-  background-color: #fff;
   text-wrap: balance;
+  background-color: rgba(255, 255, 255, 0.98);
+  text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.2);
+  max-width: 60%;
 }
 
 .Container button {
-  background-color: rgb(26 139 126 / var(--tw-text-opacity, 1));
+  background-color: rgb(26 139 126);
   color: #fff;
   font-size: 1rem;
   font-weight: 700;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.4rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 2rem;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(255, 255, 255);
+  background-blend-mode: darken;
+}
+
+section h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #000;
+  text-align: center;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
 }
