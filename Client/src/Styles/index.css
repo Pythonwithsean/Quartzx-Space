@@ -1,11 +1,23 @@
-:root {
-  line-height: 1.5;
-  font-weight: 400;}
-  
-*{
+@import "tailwindcss";
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "JetBrains Mono", serif;
+  font-optical-sizing: auto;
+}
 
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.jetbrains-mono-bold {
+  font-family: "JetBrains Mono", serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.jetbrains-mono-light {
+  font-family: "JetBrains Mono", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
 }

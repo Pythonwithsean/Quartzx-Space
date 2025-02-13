@@ -1,12 +1,15 @@
 import Header from "../Components/Header";
 import "../Styles/Home.css";
-import Welcome from "../Components/Welcome";
-function Home(): JSX.Element {
+function Home() {
   return (
-    <main>
+    <>
       <Header />
-      <Welcome />
-    </main>
+      <div className="container">
+        <section>
+          <h1>The Platform for Students to Embrace Learning</h1>
+        </section>
+      </div>
+    </>
   );
 }
 
