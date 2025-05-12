@@ -6,6 +6,8 @@ import TextEditor from "./Components/TextEditor";
 import QuartzxSpace from "./Pages/QuartzxSpace";
 import NotFound from "./Pages/NotFound";
 import "./Styles/App.css";
+import Dashboard from "./Pages/Dashboard";
+import MinimalEditor from "./Components/TextEditor";
 
 function App() {
   return (
@@ -14,11 +16,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
-        <Route
-          path="/Dashboard/:noteTitle?/:noteID?"
-          element={<QuartzxSpace Children={<TextEditor />} />}
-        />
-
+        <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/TextEditor" element={<MinimalEditor />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

@@ -1,135 +1,155 @@
-import { useCallback, useEffect, useState } from "react";
-import "quill/dist/quill.snow.css";
-import Quill from "quill";
-import "../Styles/TextEditor.css";
-import { io, Socket } from "socket.io-client";
-import { DeltaOperation, DeltaStatic } from "quill";
-import { useParams } from "react-router-dom";
+"use client";
 
-const TOOLBAR_OPTIONS = [
-  ["bold", "italic", "underline", "strike"], // toggled buttons
-  ["blockquote", "code-block"],
+import { useState, useRef, useEffect } from "react";
+import {
+  Moon,
+  Sun,
+  Save,
+  Download,
+  HelpCircle,
+  MoreHorizontal,
+  List,
+} from "lucide-react";
+import "../Styles/MinimalEditor.css";
 
-  [{ header: 1 }, { header: 2 }], // custom button values
-  [{ list: "ordered" }, { list: "bullet" }],
-  [{ script: "sub" }, { script: "super" }], // superscript/subscript
-  [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-  [{ direction: "rtl" }], // text direction
-
-  [{ size: ["small", false, "large", "huge"] }], // custom dropdown
-  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-  [{ color: [] }, { background: [""] }], // dropdown with defaults from theme
-  [{ font: [] }],
-
-  [{ align: [] }],
-
-  ["image", "video"],
-
-  ["clean"],
-];
-
-export default function TextEditor(): JSX.Element {
-  const [socket, setSocket] = useState<Socket | undefined>(undefined);
-  const [quill, setQuill] = useState<Quill | undefined>(undefined);
-  const { noteID: documentId } = useParams<{ noteID: string }>();
-  const { noteTitle: documentTitle } = useParams<{ noteTitle: string }>();
-  //Socket Connection
-  useEffect(() => {
-    const s: Socket = io("http://localhost:4002", {});
-    setSocket(s);
-
-    s.on("connect", () => {
-      console.log("Connected to Socket.IO server");
-    });
-
-    return () => {
-      s.disconnect();
-    };
-  }, []);
-
-  type Delta = {
-    ops?: DeltaOperation[] | undefined;
-  };
-  useEffect(() => {
-    if (socket == null || quill == null) return;
-
-    const handler = (delta: Delta, oldDelta: Delta, source: string) => {
-      if (source !== "user") return;
-      socket.emit("send-changes", delta, oldDelta);
-    };
-
-    quill?.on("text-change", handler);
-
-    return () => {
-      quill?.off("text-change", handler);
-    };
-  }, [socket, quill, documentTitle]);
-
-  //Save Data
-
-  useEffect(() => {
-    if (socket == null || quill == null) return;
-
-    const interval = setInterval(() => {
-      socket.emit("save-document", quill.getContents());
-    }, 2000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [quill, socket]);
-
-  //Function that ensures that the user has a note Selected and show contents of the user once they are connected
-  useEffect(() => {
-    if (quill == null || socket == null) return;
-
-    if (documentTitle === undefined || documentId === undefined) {
-      quill.disable();
-      quill.setText("Select a note to edit");
-      return;
-    }
-    socket.emit(
-      "get-document",
-      documentId,
-      documentTitle,
-      window.localStorage.getItem("username")
-    );
-
-    socket.once("load-document", (document) => {
-      quill?.setContents(document);
-      quill?.enable();
-    });
-  }, [documentTitle, documentId, socket, quill]);
-
-  useEffect(() => {
-    if (socket == null || quill == null) return;
-
-    const handler = (delta: DeltaStatic) => {
-      quill?.updateContents(delta);
-    };
-
-    socket?.on("receive-changes", handler);
-
-    return () => {
-      socket?.off("receive-changes", handler);
-    };
-  }, [socket, quill]);
-
-  const wrapperRef = useCallback((wrapper: HTMLDivElement | null) => {
-    if (wrapper == null) return;
-
-    wrapper.innerHTML = "";
-    const editor = document.createElement("div");
-    wrapper.append(editor);
-
-    const q = new Quill(editor, {
-      theme: "snow",
-      modules: { toolbar: TOOLBAR_OPTIONS },
-    });
-
-    setQuill(q);
-  }, []);
-
-  return <div id="container" ref={wrapperRef}></div>;
+interface MinimalEditorProps {
+  initialContent?: string;
+  noteTitle?: string;
+  onSave?: (content: string) => void;
 }
+
+function MinimalEditor({
+  initialContent = "",
+  noteTitle = "Untitled",
+  onSave,
+}: MinimalEditorProps) {
+  const [content, setContent] = useState(initialContent);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isSaved, setIsSaved] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
+  const [wordCount, setWordCount] = useState(0);
+  const [charCount, setCharCount] = useState(0);
+  const editorRef = useRef<HTMLTextAreaElement>(null);
+
+  // Focus the editor on mount
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.focus();
+    }
+  }, []);
+
+  // Calculate word and character count
+  useEffect(() => {
+    const words = content.trim() ? content.trim().split(/\s+/).length : 0;
+    const chars = content.length;
+
+    setWordCount(words);
+    setCharCount(chars);
+    setIsSaved(false);
+  }, [content]);
+
+  // Toggle dark/light mode
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  // Handle save
+  const handleSave = () => {
+    if (onSave) {
+      onSave(content);
+    }
+    setIsSaved(true);
+    // You could also implement local storage saving here
+    localStorage.setItem(`note-${noteTitle}`, content);
+  };
+
+  // Handle download as text file
+  const handleDownload = () => {
+    const element = document.createElement("a");
+    const file = new Blob([content], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = `${noteTitle}.txt`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
+  // Handle keyboard shortcuts
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Save on Ctrl+S or Cmd+S
+    if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+      e.preventDefault();
+      handleSave();
+    }
+  };
+
+  return (
+    <div
+      className={`minimal-editor ${isDarkMode ? "dark-mode" : "light-mode"}`}
+    >
+      <div className="editor-header">
+        <h1 className="note-title">{noteTitle}</h1>
+        <div className="editor-actions">
+          <button
+            className="action-button theme-toggle"
+            onClick={toggleTheme}
+            title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+          <button
+            className={`action-button save-button ${!isSaved ? "unsaved" : ""}`}
+            onClick={handleSave}
+            title="Save (Ctrl+S)"
+          >
+            <Save size={18} />
+          </button>
+        </div>
+      </div>
+
+      <textarea
+        ref={editorRef}
+        className="editor-textarea"
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder="Type here..."
+        spellCheck="false"
+      />
+
+      <div className="editor-footer">
+        <div className="word-count">
+          {wordCount} words | {charCount} characters
+        </div>
+        <div className="footer-actions">
+          <button className="footer-button" title="Help">
+            <HelpCircle size={16} />
+          </button>
+          <button
+            className="footer-button"
+            onClick={() => setShowMenu(!showMenu)}
+            title="More options"
+          >
+            <MoreHorizontal size={16} />
+          </button>
+          <button className="footer-button" title="Download">
+            <Download size={16} onClick={handleDownload} />
+          </button>
+          <button className="footer-button" title="View as list">
+            <List size={16} />
+          </button>
+        </div>
+
+        {showMenu && (
+          <div className="menu-dropdown">
+            <button onClick={handleDownload}>Download as TXT</button>
+            <button onClick={handleSave}>Save to cloud</button>
+            <button onClick={() => setContent("")}>Clear editor</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default MinimalEditor;
