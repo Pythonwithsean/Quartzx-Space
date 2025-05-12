@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
 import { Home, Search, StickyNote, Trash2 } from "lucide-react";
 import { useEffect, useState, ReactNode } from "react";
 import "../Styles/QuartzxSpace.css";
 import "../Styles/Bar.css";
-import { useNavigate } from "react-router-dom";
 import CreateNote from "../utils/CreateNote";
+import { Link, useNavigate } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 
 //Function to Capitalize the first letter of a string

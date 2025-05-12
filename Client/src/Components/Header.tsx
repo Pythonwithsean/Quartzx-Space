@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router";
 import { useCookies } from "react-cookie";
 import { LogOut } from "lucide-react";
-import { StickyNote, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import "../Styles/Header.css";
 
 function Header() {
@@ -26,11 +26,6 @@ function Header() {
         {!cookies.access_token ? (
           <>
             {" "}
-            <li>
-              <Link to="/Login" className="">
-                Login
-              </Link>
-            </li>
             <li>
               <Link to="/Register">Register</Link>
             </li>

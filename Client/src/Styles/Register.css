@@ -1,4 +1,4 @@
-/* Login Page Styles */
+/* Register Page Styles */
 * {
   margin: 0;
   padding: 0;
@@ -13,7 +13,7 @@ body {
   background-color: #f8f9fa;
 }
 
-.login-container {
+.register-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -27,7 +27,7 @@ body {
   );
 }
 
-.login-card {
+.register-card {
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
@@ -38,29 +38,29 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.login-card:hover {
+.register-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
-.login-header {
+.register-header {
   text-align: center;
   margin-bottom: 2rem;
 }
 
-.login-header h1 {
+.register-header h1 {
   font-size: 2rem;
   font-weight: 700;
   color: #333;
   margin-bottom: 0.5rem;
 }
 
-.login-header p {
+.register-header p {
   color: #666;
   font-size: 1rem;
 }
 
-.login-form {
+.register-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -127,7 +127,7 @@ body {
   margin-top: 0.5rem;
 }
 
-.login-button {
+.register-button {
   width: 100%;
   padding: 0.75rem 1.5rem;
   background-color: rgb(26, 139, 126);
@@ -144,7 +144,7 @@ body {
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.login-button:hover {
+.register-button:hover {
   background-color: rgb(22, 120, 108);
   transform: translateY(-2px);
 }
@@ -153,68 +153,67 @@ body {
   transition: transform 0.2s ease;
 }
 
-.login-button:hover .button-icon {
+.register-button:hover .button-icon {
   transform: translateX(4px);
 }
 
-.forgot-password {
-  text-align: center;
-  margin-top: 0.5rem;
-}
-
-.forgot-password a {
-  color: rgb(26, 139, 126);
-  text-decoration: none;
-  font-size: 0.875rem;
-  transition: color 0.2s ease;
-}
-
-.forgot-password a:hover {
-  color: rgb(22, 120, 108);
-  text-decoration: underline;
-}
-
-.register-prompt {
+.login-prompt {
   text-align: center;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid #eee;
 }
 
-.register-prompt p {
+.login-prompt p {
   color: #666;
   font-size: 0.875rem;
 }
 
-.register-prompt a {
+.login-prompt a {
   color: rgb(26, 139, 126);
   font-weight: 600;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
-.register-prompt a:hover {
+.login-prompt a:hover {
   color: rgb(22, 120, 108);
   text-decoration: underline;
 }
 
-.login-footer {
+.register-footer {
   text-align: center;
   color: #666;
   font-size: 0.875rem;
+  max-width: 450px;
+}
+
+.terms-link {
+  color: rgb(26, 139, 126);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.terms-link:hover {
+  color: rgb(22, 120, 108);
+  text-decoration: underline;
 }
 
 /* Responsive Design */
 @media (max-width: 480px) {
-  .login-card {
+  .register-card {
     padding: 1.5rem;
   }
 
-  .login-header h1 {
+  .register-header h1 {
     font-size: 1.75rem;
   }
 
   .form-group input {
     padding: 0.6rem 0.8rem;
+  }
+
+  .register-footer {
+    font-size: 0.75rem;
   }
 }
