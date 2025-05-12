@@ -24,7 +24,7 @@ function MinimalEditor({
   onSave,
 }: MinimalEditorProps) {
   const [content, setContent] = useState(initialContent);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSaved, setIsSaved] = useState(true);
   const [showMenu, setShowMenu] = useState(false);
   const [wordCount, setWordCount] = useState(0);
