@@ -52,7 +52,7 @@ function Header() {
             to={cookies.access_token ? "/Dashboard" : "/Login"}
             className="Our-Services"
           >
-            Use Our Product
+            Use Product
           </Link>
         </li>
         <li></li>
