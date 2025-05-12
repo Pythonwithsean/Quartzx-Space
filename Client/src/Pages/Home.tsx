@@ -22,10 +22,10 @@ function Home() {
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
-          <h1>The Platform for Students to Embrace Learning</h1>
+          <h1>The Platform for Students to Enjoy Writing Notes</h1>
           <p className="hero-subtitle">
             Discover a new way to learn, collaborate, and grow with our
-            innovative educational platform
+            innovative minimal note taking platform
           </p>
           <button className="cta-button" onClick={() => navigate("/Login")}>
             Get Started <ArrowRight className="icon" size={16} />
@@ -39,34 +39,12 @@ function Home() {
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon">
-              <BookOpen size={32} />
-            </div>
-            <h3>Comprehensive Courses</h3>
-            <p>
-              Access thousands of courses across various subjects tailored to
-              your learning needs.
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">
               <Users size={32} />
             </div>
-            <h3>Collaborative Learning</h3>
+            <h3>Collaborative Note Taking with Real Time Updates</h3>
             <p>
-              Connect with peers and instructors to enhance your learning
+              Connect with peers and instructors to enhance your note taking
               experience.
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">
-              <Award size={32} />
-            </div>
-            <h3>Earn Certifications</h3>
-            <p>
-              Get recognized for your achievements with industry-recognized
-              certifications.
             </p>
           </div>
 
@@ -74,10 +52,10 @@ function Home() {
             <div className="feature-icon">
               <Lightbulb size={32} />
             </div>
-            <h3>Personalized Learning</h3>
+            <h3>Simple and Minimal Note Taking</h3>
             <p>
-              Adaptive learning paths that adjust to your progress and
-              preferences.
+              Quartzx Space is Fast, Minimal, and Simple. It is a note taking
+              platform that is designed to be fast and easy to use.
             </p>
           </div>
         </div>
@@ -97,7 +75,7 @@ function Home() {
             </p>
             <div className="testimonial-author">
               <div>
-                <h4>Sarah Johnson</h4>
+                <h4>Sean</h4>
                 <p>Computer Science Student</p>
               </div>
             </div>
@@ -113,8 +91,8 @@ function Home() {
             </p>
             <div className="testimonial-author">
               <div>
-                <h4>Michael Chen</h4>
-                <p>Business Administration Student</p>
+                <h4>Isaac</h4>
+                <p>Computer Science Student</p>
               </div>
             </div>
           </div>
