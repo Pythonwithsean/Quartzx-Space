@@ -1,6 +1,6 @@
-require("dotenv").config(); // Load environment variables from .env file
+require("dotenv").config();
 const express = require("express");
-const PORT = 3001; // Use PORT value from .env file or default to 3001
+const PORT = 3001;
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -20,7 +20,6 @@ mongoose
     console.log("MongoDB Connected…");
   })
   .catch((err) => console.log(err.message));
-
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/auth", userRouter);
