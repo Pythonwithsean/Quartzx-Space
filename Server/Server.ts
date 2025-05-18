@@ -21,4 +21,5 @@ app.use(cors);
 app.use(express.json());
 app.get("/api/hello", helloHandler);
 app.post("/api/register", RegisterHandler);
+
 app.listen(process.env.MY_PORT, () => Logger.logSuccess(`Server started on port ${process.env.MY_PORT}`));
